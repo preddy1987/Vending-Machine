@@ -38,7 +38,7 @@ namespace VndrWebApi.Controllers
 
         // POST api/user
         [HttpPost]
-        public void Post([FromBody] UserItemViewModel value)
+        public ActionResult<int> Post([FromBody] UserItemViewModel value)
         {
             PasswordManager passHelper = new PasswordManager(value.Password);
             UserItem user = new UserItem();
@@ -49,12 +49,13 @@ namespace VndrWebApi.Controllers
             user.Hash = passHelper.Hash;
             user.Salt = passHelper.Salt;
             user.RoleId = value.RoleId;
-            _db.AddUserItem(user);
+
+            return _db.AddUserItem(user);
         }
 
         // PUT api/user/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] UserItemViewModel value)
+        public ActionResult<bool> Put(int id, [FromBody] UserItemViewModel value)
         {
             PasswordManager passHelper = new PasswordManager(value.Password);
             UserItem user = new UserItem();
@@ -66,7 +67,7 @@ namespace VndrWebApi.Controllers
             user.Hash = passHelper.Hash;
             user.Salt = passHelper.Salt;
             //user.RoleId = value.RoleId;
-            _db.UpdateUserItem(user);
+            return _db.UpdateUserItem(user);
         }
 
         // DELETE api/user/5

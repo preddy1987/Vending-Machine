@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingService;
 using VendingService.Database;
 using VendingService.Interfaces;
 
@@ -15,12 +16,12 @@ namespace VndrIntegrationTests
             IVendingService db = new VendingDBService(_connectionString);
             //IVendingService db = new MockVendingDBService();
 
-            //TestManager.PopulateDatabaseWithUsers(db);
-            //TestManager.PopulateDatabaseWithInventory(db);
-            //TestManager.PopulateDatabaseWithTransactions(db);
+            TestManager.PopulateDatabaseWithUsers(db);
+            TestManager.PopulateDatabaseWithInventory(db);
+            TestManager.PopulateDatabaseWithTransactions(db);
 
-            //ILogService log = new LogDBService(_connectionString);
-            //TestManager.PopulateLogFileWithOperations(db, log);
+            ILogService log = new LogDBService(_connectionString);
+            TestManager.PopulateLogFileWithOperations(db, log);
         }
     }
 }

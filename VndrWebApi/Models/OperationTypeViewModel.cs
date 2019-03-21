@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace VndrWebApi.Models
 {
-    public class RoleItemViewModel
+    public class OperationTypeViewModel
     {
-        int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
+
 }

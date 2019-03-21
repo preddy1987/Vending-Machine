@@ -1,0 +1,24 @@
+.cohertContainer{
+    background-image: url("/images/TechElevator_Banner.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+.cohertImage{
+    display:block;
+    width:250px;
+    height: 250px;
+    border-radius: 50%; 
+}
+.cohertName{
+    font-weight: bold;
+    font-size: 20px;
+}
+.cohertContainer div{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    border: red solid 1px;
+}

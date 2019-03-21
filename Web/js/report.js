@@ -1,3 +1,9 @@
+const head = document.querySelector('head');
+const reportCSS = document.createElement('link');
+reportCSS.setAttribute('href', "css/report.css");
+reportCSS.setAttribute('rel', "stylesheet");
+head.insertAdjacentElement('beforeend', reportCSS);
+
 const main = document.querySelector('main');
 const years = [];
 let currentYear = (new Date()).getFullYear();
@@ -54,7 +60,7 @@ function repopulateList(event){
     .then((items) => {
         items.forEach((item) => {
             let itemString = "Transaction ID: " + item.vendingTransactionId + " Product ID: " + item.productId +
-                             " salePrice: " + item.salePrice + " ID: " + item.id; 
+                             " salePrice: $" + item.salePrice.toFixed(2) + " ID: " + item.id; 
             let listItem = document.createElement('li');
             listItem.innerText = itemString;
             list.insertAdjacentElement('beforeend', listItem);

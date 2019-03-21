@@ -41,6 +41,7 @@ namespace VndrWebApi.Controllers
         {
             RoleItem item = new RoleItem();
             item.Name = value.Name;
+            item.Id = value.Id;
             _db.AddRoleItem(item);
         }
 

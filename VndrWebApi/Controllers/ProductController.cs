@@ -37,19 +37,19 @@ namespace VndrWebApi.Controllers
 
         // POST api/product
         [HttpPost]
-        public void Post([FromBody] ProductItemViewModel value)
+        public int Post([FromBody] ProductItemViewModel value)
         {
             ProductItem item = new ProductItem();
             item.Name = value.Name;
             item.CategoryId = value.CategoryId;
             item.Price = value.Price;
             item.Image = value.Image;
-            _db.AddProductItem(item);
+            return _db.AddProductItem(item);
         }
 
         // PUT api/product/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] ProductItemViewModel value)
+        public bool Put(int id, [FromBody] ProductItemViewModel value)
         {
             ProductItem item = new ProductItem();
             item.Id = id;
@@ -57,7 +57,7 @@ namespace VndrWebApi.Controllers
             item.CategoryId = value.CategoryId;
             item.Price = value.Price;
             item.Image = value.Image;
-            _db.UpdateProductItem(item);
+            return _db.UpdateProductItem(item);
         }
 
         // DELETE api/product/5

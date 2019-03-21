@@ -37,27 +37,27 @@ namespace VndrWebApi.Controllers
 
         // POST api/Inventory
         [HttpPost]
-        public void Post([FromBody] InventoryItemViewModel value)
+        public ActionResult<int> Post([FromBody] InventoryItemViewModel value)
         {
             InventoryItem item = new InventoryItem();
             item.Column = value.Column;
             item.ProductId= value.ProductId;
             item.Qty = value.Qty;
             item.Row = value.Row;
-            _db.AddInventoryItem(item);
+            return _db.AddInventoryItem(item);
         }
 
         // PUT api/Inventory/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] InventoryItemViewModel value)
+        public ActionResult<bool> Put(int id, [FromBody] InventoryItemViewModel value)
         {
             InventoryItem item = new InventoryItem();
             item.Id = id;
-            item.Column = value.Column;
-            item.ProductId = value.ProductId;
+          item.Column = value.Column;
+            item.ProductId= value.ProductId;
             item.Qty = value.Qty;
             item.Row = value.Row;
-            _db.UpdateInventoryItem(item);
+           return _db.UpdateInventoryItem(item);
         }
 
         // DELETE api/Inventory/5

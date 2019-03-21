@@ -52,13 +52,13 @@ function repopulateList(event){
         return response.json();
     })
     .then((items) => {
-            items.forEach((item) => {
-                let itemString = "Transaction ID: " + item.vendingTransactionId + " Product ID: " + item.productId +
-                                " salePrice: " + item.salePrice + " ID: " + item.id; 
-                let listItem = document.createElement('li');
-                listItem.innerText = itemString;
-                list.insertAdjacentElement('beforeend', listItem);
-            });
+        items.forEach((item) => {
+            let itemString = "Transaction ID: " + item.vendingTransactionId + " Product ID: " + item.productId +
+                             " salePrice: " + item.salePrice + " ID: " + item.id; 
+            let listItem = document.createElement('li');
+            listItem.innerText = itemString;
+            list.insertAdjacentElement('beforeend', listItem);
+        });
     })
     .catch((err) => {console.error(err)});
 }

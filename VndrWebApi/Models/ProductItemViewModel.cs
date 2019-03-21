@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace VndrWebApi.Models
 {
-    public class CategoryItemViewModel
+    public class ProductItemViewModel
     {
+        public int CategoryId { get; set; }
         public string Name { get; set; }
-        public string Noise { get; set; }
+        public double Price { get; set; }
+        public string Image { get; set; }
     }
 }

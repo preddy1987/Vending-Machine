@@ -27,6 +27,7 @@ namespace VndrWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -43,6 +44,9 @@ namespace VndrWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseMvc();
         }

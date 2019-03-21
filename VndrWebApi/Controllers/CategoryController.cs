@@ -40,8 +40,9 @@ namespace VndrWebApi.Controllers
         public void Post([FromBody] CategoryItemViewModel value)
         {
             CategoryItem item = new CategoryItem();
-            //item.Name = value.Name;
-            //_db.AddCategoryItem(item);
+            item.Name = value.Name;
+            item.Noise= value.Noise;
+            _db.AddCategoryItem(item);
         }
 
         // PUT api/role/5
@@ -50,9 +51,9 @@ namespace VndrWebApi.Controllers
         {
             CategoryItem item = new CategoryItem();
             item.Id = id;
-            //item.Name = value.;
-            //item.Noise = value.;
-            //_db.UpdateCategoryItem(item);
+            item.Name = value.Name;
+            item.Noise = value.Noise;
+            _db.UpdateCategoryItem(item);
         }
 
         // DELETE api/role/5

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VendingService;
 using VendingService.Database;
 using VendingService.Interfaces;
 

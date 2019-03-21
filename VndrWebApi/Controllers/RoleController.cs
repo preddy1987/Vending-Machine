@@ -37,11 +37,12 @@ namespace VndrWebApi.Controllers
 
         // POST api/role
         [HttpPost]
-        public void Post([FromBody] RoleItemViewModel value)
+        public ActionResult<int> Post([FromBody] RoleItemViewModel value)
         {
             RoleItem item = new RoleItem();
             item.Name = value.Name;
-            _db.AddRoleItem(item);
+            item.Id = value.Id;
+            return _db.AddRoleItem(item);
         }
 
         // PUT api/role/5

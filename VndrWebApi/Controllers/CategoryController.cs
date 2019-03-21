@@ -21,21 +21,21 @@ namespace VndrWebApi.Controllers
             _db = db;
         }
 
-        // GET api/role
+        // GET api/Category
         [HttpGet]
         public ActionResult<IEnumerable<CategoryItem>> Get()
         {
             return _db.GetCategoryItems();
         }
 
-        // GET api/role/5
+        // GET api/Category/5
         [HttpGet("{id}")]
         public ActionResult<CategoryItem> Get(int id)
         {
             return _db.GetCategoryItem(id);
         }
 
-        // POST api/role
+        // POST api/Category
         [HttpPost]
         public void Post([FromBody] CategoryItemViewModel value)
         {
@@ -45,7 +45,7 @@ namespace VndrWebApi.Controllers
             _db.AddCategoryItem(item);
         }
 
-        // PUT api/role/5
+        // PUT api/Category/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] CategoryItemViewModel value)
         {
@@ -56,7 +56,7 @@ namespace VndrWebApi.Controllers
             _db.UpdateCategoryItem(item);
         }
 
-        // DELETE api/role/5
+        // DELETE api/Category/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -21,21 +21,21 @@ namespace VndrWebApi.Controllers
             _db = db;
         }
 
-        // GET api/role
+        // GET api/product
         [HttpGet]
         public ActionResult<IEnumerable<ProductItem>> Get()
         {
             return _db.GetProductItems();
         }
 
-        // GET api/role/5
+        // GET api/product/5
         [HttpGet("{id}")]
         public ActionResult<ProductItem> Get(int id)
         {
             return _db.GetProductItem(id);
         }
 
-        // POST api/role
+        // POST api/product
         [HttpPost]
         public void Post([FromBody] ProductItemViewModel value)
         {
@@ -47,7 +47,7 @@ namespace VndrWebApi.Controllers
             _db.AddProductItem(item);
         }
 
-        // PUT api/role/5
+        // PUT api/product/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] ProductItemViewModel value)
         {
@@ -60,7 +60,7 @@ namespace VndrWebApi.Controllers
             _db.UpdateProductItem(item);
         }
 
-        // DELETE api/role/5
+        // DELETE api/product/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

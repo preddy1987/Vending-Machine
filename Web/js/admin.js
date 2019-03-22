@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function setupAdminPage(){
 
     function getUsers(){
@@ -109,4 +110,11 @@ function setupAdminPage(){
         
         mainNode.insertAdjacentElement('beforeend', tableNode);
     }
+=======
+function setupAdminPage() {
+    const mainNode = document.querySelector('main');
+    const childNode = document.createElement('h1');
+    childNode.innerText = 'Admin';
+    mainNode.insertAdjacentElement('afterbegin', childNode);
+>>>>>>> 169dbcd684d7a057384b7753be53311aca5bd632
 }

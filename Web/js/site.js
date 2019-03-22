@@ -1,32 +1,69 @@
-window.buttonNames = [
-    {name: "About"},
-    {name: "Admin"},
-    {name: "Log"},
-    {name: "Report"},
-    {name: "Site"},
-    {name: "User"},
-    {name: "Vending"}
-]
-
 function setPageTitle(title) {
     const header = document.querySelector('head title');
     header.innerText = title;
 }
 
-/**
- * Removes all the existing css files except for site.css and adds the ones passed into this function to the index.html
- * @param {array strings} fileNames 
- */
-function setCssFiles(fileNames) {
-
+function createVendingPage() {
+    clearMainNode();
+    setupVendingPage();
+    //update nav bar
 }
 
-/**
- * Removes all the existing javascript files except for site.js and adds the ones passed into this function to the index.html
- * @param {array strings} fileNames 
- */
-function setJsFiles(fileNames) {
-
+function createLogPage() {
+    clearMainNode();
+    setupLogPage();
+    //update nav bar
 }
 
-setPageTitle("Vndr");
+function createReportPage() {
+    clearMainNode();
+    setupReportPage();
+    //update nav bar
+}
+
+function createLoginPage() {
+    clearMainNode();
+    setupLoginPage();
+    //update nav bar
+}
+
+function createRegistrationPage() {
+    clearMainNode();
+    setupRegistrationPage();
+    //update nav bar
+}
+
+function createAdminPage() {
+    clearMainNode();
+    setupAdminPage();
+    //update nav bar
+}
+
+function createAboutPage() {
+    clearMainNode();
+    setupAboutPage();
+    //update nav bar
+}
+
+function clearMainNode() {
+    const headerNode = document.querySelector('header');
+    let mainNode = document.querySelector('main');
+    const bodyNode = document.querySelector('body');
+    bodyNode.removeChild(mainNode);
+    mainNode = document.createElement('main');
+    headerNode.insertAdjacentElement('afterend', mainNode);
+}
+
+function registerNavBarEvents() {
+    document.getElementById('navVending').addEventListener('click', createVendingPage);
+    document.getElementById('navLog').addEventListener('click', createLogPage);
+    document.getElementById('navReport').addEventListener('click', createReportPage);
+    document.getElementById('navLogin').addEventListener('click', createLoginPage);
+    document.getElementById('navRegister').addEventListener('click', createRegistrationPage);
+    document.getElementById('navAdmin').addEventListener('click', createAdminPage);
+    document.getElementById('navAbout').addEventListener('click', createAboutPage);
+}
+
+setPageTitle("Vndr II");
+registerNavBarEvents();
+createVendingPage();

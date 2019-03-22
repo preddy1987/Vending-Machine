@@ -1,3 +1,10 @@
+function setupReportPage() {
+    const mainNode = document.querySelector('main');
+    const childNode = document.createElement('h1');
+    childNode.innerText = 'Report';
+    mainNode.insertAdjacentElement('afterbegin', childNode);
+}
+
 const head = document.querySelector('head');
 const reportCSS = document.createElement('link');
 reportCSS.setAttribute('href', "css/report.css");

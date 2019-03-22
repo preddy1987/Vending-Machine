@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VendingService;
+using VendingService.Exceptions;
 using VendingService.Interfaces;
 using VendingService.Models;
 using VndrWebApi.Models;
@@ -38,23 +39,38 @@ namespace VndrWebApi.Controllers
 
         // POST api/user
         [HttpPost]
-        public void Post([FromBody] UserItemViewModel value)
+        public ActionResult<int> Post([FromBody] UserItemViewModel value)
         {
+            UserItem userItem = null;
+            try
+            {
+                userItem = _db.GetUserItem(value.Username);
+            }
+            catch (Exception)
+            {
+            }
+
+            if (userItem != null)
+            {
+                throw new UserExistsException("The username is already taken.");
+            }
             PasswordManager passHelper = new PasswordManager(value.Password);
-            UserItem user = new UserItem();
-            user.FirstName = value.FirstName;
-            user.LastName = value.LastName;
-            user.Username = value.Username;
-            user.Email = value.Email;
-            user.Hash = passHelper.Hash;
-            user.Salt = passHelper.Salt;
-            user.RoleId = value.RoleId;
-            _db.AddUserItem(user);
+            UserItem user = new UserItem()
+            {
+              FirstName = value.FirstName,
+              LastName = value.LastName,
+              Username = value.Username,
+              Email = value.Email,
+              Hash = passHelper.Hash,
+              Salt = passHelper.Salt,
+              RoleId = value.RoleId
+          };   
+            return _db.AddUserItem(user);
         }
 
         // PUT api/user/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] UserItemViewModel value)
+        public ActionResult<bool> Put(int id, [FromBody] UserItemViewModel value)
         {
             PasswordManager passHelper = new PasswordManager(value.Password);
             UserItem user = new UserItem();
@@ -66,7 +82,7 @@ namespace VndrWebApi.Controllers
             user.Hash = passHelper.Hash;
             user.Salt = passHelper.Salt;
             //user.RoleId = value.RoleId;
-            _db.UpdateUserItem(user);
+            return _db.UpdateUserItem(user);
         }
 
         // DELETE api/user/5

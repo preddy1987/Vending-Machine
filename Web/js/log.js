@@ -10,36 +10,6 @@ function doDataLoad() {
       .catch((err) => console.error(err));
 }
 
-/*function buildHTML() {
-    const mainNode = document.querySelector('main');
-    loggingNode = document.createElement('div');
-    loggingNode.classList.add("row");
-    loggingNode.classList.add("headerRow");
-    mainNode.insertAdjacentElement('beforeend',loggingNode);
-    childNode = document.createElement('div');
-    childNode.classList.add("col-sm-1");
-    loggingNode.insertAdjacentElement('beforeend',childNode);
-    childNode = document.createElement('div');
-    childNode.classList.add("col-3");
-    childNode.classList.add("content");
-    childNode.innerText = "Date";
-    loggingNode.insertAdjacentElement('beforeend',childNode);
-    childNode = document.createElement('div');
-    childNode.classList.add("col-4");
-    childNode.classList.add("transaction");
-    childNode.classList.add("content");
-    childNode.innerText = "Action";
-    loggingNode.insertAdjacentElement('beforeend',childNode);
-    childNode = document.createElement('div');
-    childNode.classList.add("col-2");
-    childNode.classList.add("amount");
-    childNode.classList.add("content");
-    childNode.innerText = "Amt";
-    loggingNode.insertAdjacentElement('beforeend',childNode);
-    childNode = document.createElement('div');
-    childNode.classList.add("col-sm-1");
-    loggingNode.insertAdjacentElement('beforeend',childNode);
-}*/
 function getAllUsers() {
 fetch('http://localhost:57005/api/user') 
 .then((response) => {
@@ -123,19 +93,20 @@ function buildHTML () {
   //templateHTML +=  '';
 }
 
-/* function setupLogPage() {
+function setupLogPage() {
     buildHTML();
     getAllUsers();
     getAllProducts();
     getAllOperationTypes();
     doDataLoad();
 }
-*/
+/*
 
-document.addEventListener("DOMContentLoaded", () => {
-    buildHTML();
-    getAllUsers();
-    getAllProducts();
-    getAllOperationTypes();
-    doDataLoad();
-    });
+
+function setupLogPage() {
+    const mainNode = document.querySelector('main');
+    const childNode = document.createElement('h1');
+    childNode.innerText = 'Log';
+    mainNode.insertAdjacentElement('afterbegin', childNode);
+}
+*/

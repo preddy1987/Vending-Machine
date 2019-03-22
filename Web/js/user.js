@@ -2,17 +2,17 @@ const g_main = document.querySelector('main');
 const g_header = document.querySelector('header');
 
 
-function displayUsers(){
-    const displayButton = document.createElement('button'); 
-    displayButton.innerText = "Display Users";
+function loginUsers(){
+    const loginButton = document.createElement('button'); 
+    loginButton.innerText = "Login";
     const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','display-btn');
+    g_divContainer.setAttribute('id','login-btn');
     g_header.insertAdjacentElement('beforeend', g_divContainer);
     const buttonDiv = document.querySelector('header>div');
-    buttonDiv.insertAdjacentElement('beforeend',displayButton);
+    buttonDiv.insertAdjacentElement('beforeend',loginButton);
 }
 
-function addUser(){
+function addUserBtn(){
     const addButton = document.createElement('button'); 
     addButton.innerText = "Add User";
     const g_divContainer = document.createElement('div');
@@ -22,104 +22,80 @@ function addUser(){
     buttonDiv.insertAdjacentElement('beforeend',addButton);
 }
 
-function updateUser(){
-    const updateButton = document.createElement('button'); 
-    updateButton.innerText = "Update User";
-    const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','update-btn');
-    g_header.insertAdjacentElement('beforeend', g_divContainer);
-    const buttonDiv = document.querySelector('header :nth-child(3)');
-    buttonDiv.insertAdjacentElement('beforeend',updateButton);
-}
-
-function deleteUser(){
-    const deleteButton = document.createElement('button'); 
-    deleteButton.innerText = "Delete User";
-    const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','delete-btn');
-    g_header.insertAdjacentElement('beforeend', g_divContainer);
-    const buttonDiv = document.querySelector('header :nth-child(4)');
-    buttonDiv.insertAdjacentElement('beforeend',deleteButton);
-}
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    displayUsers();
-    addUser();
-    updateUser();
-    deleteUser();
-   
-    let displayNode = document.getElementById('display-btn');
-    displayNode.addEventListener('click', () => {
-      fetch('http://localhost:57005/api/user')
-       .then((response) => {
-          return response.json();
-      })
-      .then((data) => {
+    loginUsers();
+    addUserBtn();
 
-        console.log(data);
-          let output = '';
-          data.forEach(element => {
-              output +=`
-              <div>
-              <p>${element.firstName}</p>
-              <p>${element.lastName}</p>
-              <p>${element.username}</p>
-              <p>${element.email}</p>
-              <p>${element.roleId}</p>
-              </div>
-              `;
-          });
+    let loginNode = document.getElementById('login-btn');
+    loginNode.addEventListener('click', displayLoginUser);
+    function displayLoginUser(){
+      let output = `
+      <div>
+      <div>
+      <input type="text" id="username" placeholder="Username">
+      <input type="Password" id="password" placeholder="Password">
+      </div>
+      <div>
+      <input id="login-user" type="submit" value="Login">
+      </div>
+      </div>
+      `;
           g_main.innerHTML = output;
-      })
-    })
+          // document.getElementById('login-user').addEventListener('click', /*redirect user*/);
+    }
+
 
     let addDisplayNode = document.getElementById('add-btn');
-      addDisplayNode.addEventListener('click', displayAddUser)
-    
-function displayAddUser(){
+    addDisplayNode.addEventListener('click', displayAddUser)
+   function displayAddUser(){
            test = `
-           <form id="add-post"
+           <div>
            <div>
            <input type="text" id="firstName" placeholder="First name">
            <input type="text" id="lastName" placeholder="Last name">
            <input type="text" id="username" placeholder="Username">
            <input type="text" id="email" placeholder="Email">
            <input type="Password" id="password" placeholder="Password">
-           <input type="text" id="roleId" placeholder="Role ID">
            </div>
            <div>
-           <input type="submit" value="Submit">
+           <input id="add-user" type="submit" value="Submit">
            </div>
-           </form>
-           `,
+           </div>
+           `;
            g_main.innerHTML = test;
+           document.getElementById('add-user').addEventListener('click', registerUser);
+   }
+ 
+    function registerUser(e){
+        e.preventDefault();
+        const customerRole = 2;
+        
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let username = document.getElementById('username').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+        let roleId = customerRole;
+    
 
-    //     fetch('http://localhost:57005/api/user', {
-    //       method: 'Post'
-    //     }).then((response) => {
-    //         return response.json();
-    //     })
-    //     .then((data) => {
-  
-    //       console.log(data);
-    //         let output = '';
-    //         data.forEach(element => {
-    //             output +=`
-    //             <div>
-    //             <p>${element.firstName}</p>
-    //             <p>${element.lastName}</p>
-    //             <p>${element.username}</p>
-    //             <p>${element.email}</p>
-    //             <p>${element.roleId}</p>
-    //             </div>
-    //             `;
-    //         });
-    //         g_main.insertAdjacentHTML('beforeend',output);
-    //     })
-    //   })
+        fetch('http://localhost:57005/api/user', {
+          method: 'POST',
+          headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-type': 'application/json'
+          },
+
+          body: JSON.stringify({firstName:firstName, lastName:lastName, username:username, 
+                                email:email, password:password, roleId:roleId})
+        }).then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+      })
+
     }
+    
 
 
   });

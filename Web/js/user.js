@@ -16,27 +16,27 @@ const g_main = document.querySelector('main');
 const g_header = document.querySelector('header');
 
 
-function loginUsers(){
-    const loginButton = document.createElement('button'); 
-    loginButton.innerText = "Login";
-    loginButton.className = 'btn btn-outline-primary';
-    const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','login-btn');
-    g_header.insertAdjacentElement('beforeend', g_divContainer);
-    const buttonDiv = document.querySelector('header>div');
-    buttonDiv.insertAdjacentElement('beforeend',loginButton);
-}
+// function loginUsers(){
+//     const loginButton = document.createElement('button'); 
+//     loginButton.innerText = "Login";
+//     loginButton.className = 'btn btn-outline-primary';
+//     const g_divContainer = document.createElement('div');
+//     g_divContainer.setAttribute('id','login-btn');
+//     g_header.insertAdjacentElement('beforeend', g_divContainer);
+//     const buttonDiv = document.querySelector('header>div');
+//     buttonDiv.insertAdjacentElement('beforeend',loginButton);
+// }
 
-function addUserBtn(){
-    const addButton = document.createElement('button'); 
-    addButton.innerText = "Add User";
-    addButton.className = 'btn btn-outline-primary';
-    const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','add-btn');
-    g_header.insertAdjacentElement('beforeend', g_divContainer);
-    const buttonDiv = document.querySelector('header :nth-child(2)');
-    buttonDiv.insertAdjacentElement('beforeend',addButton);
-}
+// function addUserBtn(){
+//     const addButton = document.createElement('button'); 
+//     addButton.innerText = "Add User";
+//     addButton.className = 'btn btn-outline-primary';
+//     const g_divContainer = document.createElement('div');
+//     g_divContainer.setAttribute('id','add-btn');
+//     g_header.insertAdjacentElement('beforeend', g_divContainer);
+//     const buttonDiv = document.querySelector('header :nth-child(2)');
+//     buttonDiv.insertAdjacentElement('beforeend',addButton);
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
     loginUsers();
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <br />
               </div>
               <div>
-              <input id="login-user" class="btn btn-primary" type="submit" value="Login">
+              <input id="login-user" class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
               </div>
               </div>
       `;
@@ -122,7 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({firstName:firstName, lastName:lastName, username:username, 
                                 email:email, password:password, roleId:roleId})
         }).then((response) => {
+          if(response != null){
             return response.json();
+          }
+          else{
+
+          }
         })
         .then((data) => {
           console.log(data);

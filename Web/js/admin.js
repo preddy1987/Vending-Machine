@@ -110,3 +110,4 @@ function setupAdminPage(){
         
         mainNode.insertAdjacentElement('beforeend', tableNode);
     }
+}

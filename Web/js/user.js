@@ -5,6 +5,7 @@ const g_header = document.querySelector('header');
 function loginUsers(){
     const loginButton = document.createElement('button'); 
     loginButton.innerText = "Login";
+    loginButton.className = 'btn btn-outline-primary';
     const g_divContainer = document.createElement('div');
     g_divContainer.setAttribute('id','login-btn');
     g_header.insertAdjacentElement('beforeend', g_divContainer);
@@ -15,6 +16,7 @@ function loginUsers(){
 function addUserBtn(){
     const addButton = document.createElement('button'); 
     addButton.innerText = "Add User";
+    addButton.className = 'btn btn-outline-primary';
     const g_divContainer = document.createElement('div');
     g_divContainer.setAttribute('id','add-btn');
     g_header.insertAdjacentElement('beforeend', g_divContainer);
@@ -30,16 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
     loginNode.addEventListener('click', displayLoginUser);
     function displayLoginUser(){
       let output = `
-      <div>
-      <div>
-      <input type="text" id="username" placeholder="Username">
-      <input type="Password" id="password" placeholder="Password">
-      </div>
-      <div>
-      <input id="login-user" type="submit" value="Login">
-      </div>
-      </div>
+              <div>
+              <div>
+              <br />
+              <label for="username">Username</label>
+              <input class="form-control" type="text" id="username" placeholder="Username">
+              <br />
+              <label for="password">Password</label>
+              <input class="form-control" type="Password" id="password" placeholder="Password">
+              <br />
+              </div>
+              <div>
+              <input id="login-user" class="btn btn-primary" type="submit" value="Login">
+              </div>
+              </div>
       `;
+    
+      
           g_main.innerHTML = output;
           // document.getElementById('login-user').addEventListener('click', /*redirect user*/);
     }
@@ -51,14 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
            test = `
            <div>
            <div>
-           <input type="text" id="firstName" placeholder="First name">
-           <input type="text" id="lastName" placeholder="Last name">
-           <input type="text" id="username" placeholder="Username">
-           <input type="text" id="email" placeholder="Email">
-           <input type="Password" id="password" placeholder="Password">
+           <br />
+           <label for="firstName">First Name</label>
+           <input class="form-control" type="text" id="firstName" placeholder="First name">
+           <br />
+           <label for="lastName">Last Name</label>
+           <input class="form-control" type="text" id="lastName" placeholder="Last name">
+           <br />
+           <label for="username">Username</label>
+           <input class="form-control" type="text" id="username" placeholder="Username">
+           <br />
+           <label for="email">Email</label>
+           <input class="form-control" type="text" id="email" placeholder="Email">
+           <br />
+           <label for="password">Password</label>
+           <input class="form-control" type="Password" id="password" placeholder="Password">
+           <br />
            </div>
            <div>
-           <input id="add-user" type="submit" value="Submit">
+           <input id="add-user" class="btn btn-primary" type="submit" value="Submit">
            </div>
            </div>
            `;

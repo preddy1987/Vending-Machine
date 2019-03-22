@@ -1,0 +1,71 @@
+/* Affects the header section, fits logo to header, applies a translucent background
+.header {
+    height: 35%;
+    background-color: rgba(66, 226, 244,.5);
+    padding: 0px;
+}
+
+/*Changes logo with and height*/
+    /* .header img {
+        width: 600px;
+        height: auto;
+        opacity: unset;
+    } */
+
+/*Navigation bar settings, affected by the header class*/
+/* .navbar {
+    height: 50px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: cadetblue;
+    margin-left: 1px;
+    margin-right: 1px;
+    opacity: .8;
+} */
+
+/*Changes the list style on navigation bar (currently set to an unordered list)*/
+    /* .navbar ul {
+        list-style:none;
+        margin: 0;
+        padding: 0;
+    } */
+
+/*Affects the individual labels on the navbar */
+    /* .navbar li {
+        display: inline;
+        float: left;
+        padding: 15px;
+        margin-left: -30px;
+        width: auto;
+    } */
+
+/*Affects the anchors attached to each list item on the navbar */
+    /* .navbar a {
+        background-color: cadetblue;
+        text-decoration: none;
+        padding: 10px;
+        border-collapse: collapse;
+        color: black;
+    } */
+/* 
+
+footer {
+    width:100%;
+    height: 50px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: cadetblue;
+    margin-left: 1px;
+    margin-right: 1px;
+    opacity: .8;
+}
+
+body {
+    /* background-image: url("http://INSERTLINKHERE.jpg"); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin:0;
+    padding:0;
+    
+    } 
+    */

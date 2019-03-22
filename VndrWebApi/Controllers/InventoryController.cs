@@ -25,7 +25,10 @@ namespace VndrWebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<InventoryItem>> Get()
         {
+
             return _db.GetInventoryItems();
+            //return _db.GetProductDisplayList();
+            //return _db.GetInventoryItems();
         }
 
         // GET api/Inventory/5

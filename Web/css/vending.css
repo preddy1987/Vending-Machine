@@ -1,0 +1,45 @@
+.imageImg {
+    width: 100%;
+}
+
+.imageDiv {
+    width: 100%;
+}
+
+.rowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border: 2px solid red;
+}
+
+.vendingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 2px solid black;
+   
+}
+
+.vendItemContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+    height: 100%;
+    border: 2px solid blue;
+    margin: 10px;
+}
+
+.nameDiv {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.priceDiv {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+
+}

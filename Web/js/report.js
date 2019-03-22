@@ -104,10 +104,6 @@ function repopulateReportList(event){
     while(reportList.firstChild){
         reportList.firstChild.remove();
     }
-
-    g_reportProductList.forEach((product) => {
-        product.count = 0;
-    });
     
     if(selectedUser == 'all') {
         generateReportList(`http://localhost:57005/api/transactionitem/foryear/${selectedYear}`);
@@ -120,40 +116,56 @@ function repopulateReportList(event){
 function generateReportList(apiurl){
     const reportList = document.getElementById('reportList');
     let reportRunningTotal = 0;
+    const reportProductList = [];
 
-    fetch(apiurl)
-    .then((response) => {
-        return response.json();
-    })
-    .then((items) => {
-        items.forEach((item) => {
-            g_reportProductList.forEach((product) => {
-                if(item.productId == product.id){
-                    product.count += 1;
-                    reportRunningTotal += item.salePrice;                    
-                }
+    fetch(`http://localhost:57005/api/product`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((items) => {
+            items.forEach((item) => {
+                let product = {};
+                product.id = item.id;
+                product.name = item.name;
+                product.count = 0;
+                reportProductList.push(product);
             });
-        });
 
-        g_reportProductList.forEach((product) => {
-            if(product.count != 0){
-                let listItem = document.createElement('li');
-        
-                let listItemName = document.createElement('div');
-                listItemName.innerText = product.name;
-                listItem.insertAdjacentElement('beforeend', listItemName);
-        
-                let listItemCount = document.createElement('div');
-                listItemCount.innerText = product.count;
-                listItem.insertAdjacentElement('beforeend', listItemCount);
-        
-                reportList.insertAdjacentElement('beforeend', listItem);
-            }
-        });
+            fetch(apiurl)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((items) => {
+                    items.forEach((item) => {
+                        reportProductList.forEach((product) => {
+                            if(item.productId == product.id){
+                                product.count += 1;
+                                reportRunningTotal += item.salePrice;                    
+                            }
+                        });
+                    });
 
-        const reportFormTotalSales = document.getElementById("totalSales")
+                    reportProductList.forEach((product) => {
+                        if(product.count != 0){
+                            let listItem = document.createElement('li');
+                    
+                            let listItemName = document.createElement('div');
+                            listItemName.innerText = product.name;
+                            listItem.insertAdjacentElement('beforeend', listItemName);
+                    
+                            let listItemCount = document.createElement('div');
+                            listItemCount.innerText = product.count;
+                            listItem.insertAdjacentElement('beforeend', listItemCount);
+                    
+                            reportList.insertAdjacentElement('beforeend', listItem);
+                        }
+                    });
 
-        reportFormTotalSales.innerText = "Total Sales: $" + reportRunningTotal.toFixed(2);
-    })
-    .catch((err) => {console.error(err)});
+                    const reportFormTotalSales = document.getElementById("totalSales")
+
+                    reportFormTotalSales.innerText = "Total Sales: $" + reportRunningTotal.toFixed(2);
+                })
+                .catch((err) => {console.error(err)});
+        })
+        .catch((err) => {console.error(err)});
 }

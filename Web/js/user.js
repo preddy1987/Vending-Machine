@@ -3,47 +3,7 @@ function setupLoginPage() {
     const childNode = document.createElement('h1');
     childNode.innerText = 'Login';
     mainNode.insertAdjacentElement('afterbegin', childNode);
-}
 
-function setupRegistrationPage() {
-    const mainNode = document.querySelector('main');
-    const childNode = document.createElement('h1');
-    childNode.innerText = 'Registration';
-    mainNode.insertAdjacentElement('afterbegin', childNode);
-}
-
-const g_main = document.querySelector('main');
-const g_header = document.querySelector('header');
-
-
-function loginUsers(){
-    const loginButton = document.createElement('button'); 
-    loginButton.innerText = "Login";
-    loginButton.className = 'btn btn-outline-primary';
-    const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','login-btn');
-    g_header.insertAdjacentElement('beforeend', g_divContainer);
-    const buttonDiv = document.querySelector('header>div');
-    buttonDiv.insertAdjacentElement('beforeend',loginButton);
-}
-
-function addUserBtn(){
-    const addButton = document.createElement('button'); 
-    addButton.innerText = "Add User";
-    addButton.className = 'btn btn-outline-primary';
-    const g_divContainer = document.createElement('div');
-    g_divContainer.setAttribute('id','add-btn');
-    g_header.insertAdjacentElement('beforeend', g_divContainer);
-    const buttonDiv = document.querySelector('header :nth-child(2)');
-    buttonDiv.insertAdjacentElement('beforeend',addButton);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    loginUsers();
-    addUserBtn();
-
-    let loginNode = document.getElementById('login-btn');
-    loginNode.addEventListener('click', displayLoginUser);
     function displayLoginUser(){
       let output = `
               <div>
@@ -57,19 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
               <br />
               </div>
               <div>
-              <input id="login-user" class="btn btn-primary" type="submit" value="Login">
+              <input id="login-user" class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
               </div>
               </div>
       `;
     
       
-          g_main.innerHTML = output;
+      mainNode.innerHTML = output;
           // document.getElementById('login-user').addEventListener('click', /*redirect user*/);
     }
+    displayLoginUser();
+}
 
 
-    let addDisplayNode = document.getElementById('add-btn');
-    addDisplayNode.addEventListener('click', displayAddUser)
+function setupRegistrationPage() {
+    const mainNode = document.querySelector('main');
+    const childNode = document.createElement('h1');
+    childNode.innerText = 'Registration';
+    mainNode.insertAdjacentElement('afterbegin', childNode);
+
    function displayAddUser(){
            test = `
            <div>
@@ -96,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
            </div>
            </div>
            `;
-           g_main.innerHTML = test;
+           mainNode.innerHTML = test;
            document.getElementById('add-user').addEventListener('click', registerUser);
    }
- 
+   displayAddUser();
     function registerUser(e){
         e.preventDefault();
         const customerRole = 2;
@@ -122,14 +88,27 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({firstName:firstName, lastName:lastName, username:username, 
                                 email:email, password:password, roleId:roleId})
         }).then((response) => {
+          if(response != null){
             return response.json();
+          }
+          else{
+
+          }
         })
         .then((data) => {
           console.log(data);
       })
 
     }
+}
+
+
+
+
+   
+
+
+    
     
 
 
-  });

@@ -52,7 +52,7 @@ namespace VndrWebApi.Controllers
 
             if (userItem != null)
             {
-                throw new UserExistsException("The username is already taken.");
+                return NotFound();
             }
             PasswordManager passHelper = new PasswordManager(value.Password);
             UserItem user = new UserItem()

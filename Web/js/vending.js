@@ -24,17 +24,85 @@ function GetVendingItem(key)
     })
     .then((data) => {
       //Check to see if there are any left.
-      if(data[0].product.price > 0)
+      if(data.product.price <= Window.Balance)
       {
-
-      }
+            Window.Balance -= data.product.price;
+            let vendingBalance = document.getElementById("balance");
+            vendingBalance.innerText = `$ ${CurrencyFormatted(Window.Balance)} `;
+            ShowStatusMessage("Vend Successful", "btn-success");
+            UpdateQuantity(data);
+        }
+        else
+        {
+            // let statusMessage = document.getElementById("statusMessage");
+            // statusMessage.innerText = "Insufficient Funds.";
+            // statusMessage.classList.remove("d-none");
+            ShowStatusMessage("Insufficient Funds", "btn-danger");
+        }
 
     })
     .catch((err) => console.error(err));
+}
 
+function UpdateQuantity(data) {
+    console.log("Updating Inventory...");
+    
+    const key = data.inventory.id;
+    const uri = "http://localhost:57005/api/Inventory/" + key;
+    fetch(uri, {
+        method: "PUT", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify({
+            Column: data.inventory.column,
+            ProductId: data.product.id ,
+            Qty: --data.inventory.qty,
+            Row: data.inventory.row
+
+        })
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+          inventory = [];
+        createVendingPage();
+      })
+      .catch((err) => console.error(err));
 
 }
 
+function CalculateChange(bal) {
+    let change = {};
+    let balance = bal * 100;
+    change.quarters = Math.floor(balance / 25);
+    balance -= change.quarters * 25;
+    change.dimes = Math.floor(balance / 10);
+    balance -= change.dimes * 10;
+    change.nickles = Math.floor(balance / 5);
+    balance -= change.nickles * 5;
+    
+    return change;
+}
+
+function ShowStatusMessage(msg, status) {
+    let statusMessage = document.getElementById("statusMessage");
+    statusMessage.innerText = msg;
+    statusMessage.classList.remove("d-none");
+    // statusMessage.classList.add("label");
+    statusMessage.classList.add(status);
+}
+
+function HideStatusMessage() {
+    let statusMessage = document.getElementById("statusMessage");
+    statusMessage.classList.add("d-none");
+    statusMessage.classList.remove("btn-success");
+    statusMessage.classList.remove("btn-danger");
+    statusMessage.classList.remove("btn-warning");
+
+}
 function BuildInventory(data) {
     for(let i=0; i<data.length; i++)
     {
@@ -57,9 +125,51 @@ function BuyThis (event)
 {
     const myTarget = event.currentTarget;
     const key = myTarget.getAttribute("data");
-    alert("You tried to buy this item.");
+    // alert("You tried to buy this item.");
     GetVendingItem(key);
-   
+}
+
+function AddOne() {
+    Window.Balance += 1;
+    UpdateBalance();
+}
+
+function AddFive() {
+    Window.Balance += 5;
+    UpdateBalance();
+}
+
+function AddTen() {
+    Window.Balance += 10;
+    UpdateBalance();
+}
+
+function UpdateBalance() {
+    let vendingBalance = document.getElementById("balance");
+    vendingBalance.innerText = `$ ${CurrencyFormatted(Window.Balance)} `;
+    HideStatusMessage();
+
+}
+
+function CashOut() {
+    if (Window.Balance == 0)
+    {
+        ShowStatusMessage("There is no balance in the machine.", "btn-warning")
+    }
+    else
+    {
+        let holdBalance = Window.Balance;   //We need to store this for our message as we're about to wipe it.
+        Window.Balance = 0;
+        UpdateBalance();
+        change = CalculateChange(holdBalance);
+        let msg = `Take your change ($ ${CurrencyFormatted(holdBalance)} ).\nquarters: ${change.quarters}\ndimes: ${change.dimes}\nnickles: ${change.nickles}`;
+        ShowStatusMessage(msg, "btn-success");
+    }
+}
+
+function SoldOut() {
+    ShowStatusMessage("This item is sold out.  Please pick another item.", "btn-danger");
+        
 }
 
 function displayInventoryList(data) {
@@ -74,6 +184,65 @@ function displayInventoryList(data) {
     let divVendingContainer = document.createElement('div');
     divVendingContainer.classList.add('vendingContainer');
     main.insertAdjacentElement("beforeend", divVendingContainer);
+
+    //Build the Aside.
+    const aside  = document.createElement('aside');
+    aside.classList.add('asideContainer');
+    main.insertAdjacentElement("beforeend", aside);
+
+    //Build the Aside pieces.
+    const asideMainDiv  = document.createElement('div');
+    asideMainDiv.classList.add('asideMainDiv');
+    aside.insertAdjacentElement("beforeend", asideMainDiv);
+
+        let statusMessage  = document.createElement('div');
+        statusMessage.classList.add('d-none');
+        statusMessage.id = "statusMessage";
+        asideMainDiv.insertAdjacentElement("beforeend", statusMessage);
+
+        let asideSubDiv1  = document.createElement('div');
+        asideSubDiv1.classList.add('asideSubDivMoney');
+        asideSubDiv1.innerText = `$ ${CurrencyFormatted(Window.Balance)} `;
+        asideSubDiv1.id = "balance";
+        asideMainDiv.insertAdjacentElement("beforeend", asideSubDiv1);
+
+        let asideSubDiv2  = document.createElement('div');
+        asideSubDiv2.classList.add('asideSubDivButtons');
+        asideMainDiv.insertAdjacentElement("beforeend", asideSubDiv2);
+            
+            let moneyButton1  = document.createElement('button');
+            moneyButton1.classList.add('btn');
+            moneyButton1.classList.add('btn-success');
+            moneyButton1.innerText = "$1";
+            moneyButton1.addEventListener("click", AddOne);
+            asideSubDiv2.insertAdjacentElement("beforeend", moneyButton1);
+
+            let moneyButton2  = document.createElement('button');
+            moneyButton2.classList.add('btn');
+            moneyButton2.classList.add('btn-success');
+            moneyButton2.innerText = "$5";
+            moneyButton2.addEventListener("click", AddFive);
+            asideSubDiv2.insertAdjacentElement("beforeend", moneyButton2);
+
+            let moneyButton3  = document.createElement('button');
+            moneyButton3.classList.add('btn');
+            moneyButton3.classList.add('btn-success');
+            moneyButton3.innerText = "$10";
+            moneyButton3.addEventListener("click", AddTen);
+            asideSubDiv2.insertAdjacentElement("beforeend", moneyButton3);
+
+        let asideSubDiv3  = document.createElement('div');
+        asideSubDiv3.classList.add('asideSubDivChange');
+        asideMainDiv.insertAdjacentElement("beforeend", asideSubDiv3);
+
+        let changeButton  = document.createElement('button');
+        changeButton.classList.add('btn');
+        changeButton.classList.add('btn-info');
+        changeButton.classList.add('btn-lg');
+        changeButton.classList.add('btn-block');
+        changeButton.innerText = "Get Change";
+        changeButton.addEventListener("click", CashOut);
+        asideSubDiv3.insertAdjacentElement("beforeend", changeButton);
 
     //Build the first row.
     let currentRow = 0;
@@ -94,8 +263,17 @@ function displayInventoryList(data) {
         //Add a new container to hold the vending item.    
         let vendItemContainer = document.createElement('div');
         vendItemContainer.classList.add('vendItemContainer');
-        vendItemContainer.addEventListener("click", BuyThis);
-        vendItemContainer.setAttribute("data", listItem.Key);
+        if(listItem.Quantity > 0) {
+            vendItemContainer.addEventListener("click", BuyThis);
+            vendItemContainer.setAttribute("data", listItem.Key);
+            vendItemContainer.classList.add('btn-primary');
+        }    
+        else
+        {
+            //Don't add normal click event.
+            vendItemContainer.classList.add('btn-danger');
+            vendItemContainer.addEventListener("click", SoldOut);
+        }
         rowContainer.insertAdjacentElement("beforeend", vendItemContainer);
            
         //Add three containers for the image, name, and price.
@@ -116,8 +294,13 @@ function displayInventoryList(data) {
       
         let priceDiv = document.createElement('div');
         priceDiv.classList.add('priceDiv');
-        priceDiv.innerText = `$ ${CurrencyFormatted(listItem.Price)} `;
-        vendItemContainer.insertAdjacentElement("beforeend", priceDiv);
+        if(listItem.Quantity > 0) {
+            priceDiv.innerText = `$ ${CurrencyFormatted(listItem.Price)} `;
+        }
+        else{
+            priceDiv.innerText = "SOLD OUT";
+        }
+            vendItemContainer.insertAdjacentElement("beforeend", priceDiv);
       
 
 
@@ -153,72 +336,12 @@ function ClearInventoryList() {
 	s = minus + s;
 	return s;
 }
-function buildCategoryForm()
-{
-    const main = document.querySelector('main');
-    let divCategoryContainer = document.createElement('div');
-    main.insertAdjacentElement("beforeend", divCategoryContainer);
-    const CategoryForm =  document.createElement('FORM');
-    CategoryForm.method = "POST";
-    CategoryForm.action = "api/category/Post";
-    divCategoryContainer.insertAdjacentElement("beforeend", CategoryForm);
 
-    // let labelBox = document.createElement("label");
-    // labelBox.name = "Id";
-    // labelBox.for = "Id";
-    // labelBox.innerText = "Enter Id: ";
-    // CategoryForm.insertAdjacentElement("beforeend", labelBox);
-
-    // let inputBox = document.createElement("input");
-    // inputBox.type = "text";
-    // inputBox.name = "Id";
-    // inputBox.placeholder = "Enter Id";
-    // CategoryForm.insertAdjacentElement("beforeend", inputBox);
-    divCategoryContainer = document.createElement('div');
-    CategoryForm.insertAdjacentElement("beforeend", divCategoryContainer);
-
-    labelBox = document.createElement("label");
-    labelBox.name = "Name";
-    labelBox.for = "Name";
-    labelBox.innerText = "Enter Name: ";
-    divCategoryContainer.insertAdjacentElement("beforeend", labelBox);
-
-    inputBox = document.createElement("input");
-    inputBox.type = "text";
-    inputBox.name = "Name";
-    inputBox.placeholder = "Enter Name";
-    divCategoryContainer.insertAdjacentElement("beforeend", inputBox);
-
-    divCategoryContainer = document.createElement('div');
-    CategoryForm.insertAdjacentElement("beforeend", divCategoryContainer);
-
-    labelBox = document.createElement("label");
-    labelBox.name = "Noise";
-    labelBox.for = "Noise";
-    labelBox.innerText = "Enter Noise: ";
-    divCategoryContainer.insertAdjacentElement("beforeend", labelBox);
-
-    inputBox = document.createElement("input");
-    inputBox.type = "text";
-    inputBox.name = "Noise";
-    inputBox.placeholder = "Enter Noise";
-    divCategoryContainer.insertAdjacentElement("beforeend", inputBox);
-
-    divCategoryContainer = document.createElement('div');
-    CategoryForm.insertAdjacentElement("beforeend", divCategoryContainer);
-
-    let inputButton = document.createElement("button");
-    inputButton.type = "submit";
-    inputButton.value = "Post Category";
-    inputButton.innerText = "Post Category";
-    divCategoryContainer.insertAdjacentElement("beforeend", inputButton);
-
-
-} 
-
-
-
-function SetupVendingPage() {
+function setupVendingPage() {
+    if (Window.Balance == null)
+        {
+            Window.Balance = 0;
+        }
     loadInventory();
  
 }

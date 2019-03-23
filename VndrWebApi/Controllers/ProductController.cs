@@ -37,7 +37,7 @@ namespace VndrWebApi.Controllers
 
         // POST api/product
         [HttpPost]
-        public int Post([FromBody] ProductItemViewModel value)
+        public ActionResult<int> Post([FromBody] ProductItemViewModel value)
         {
             ProductItem item = new ProductItem();
             item.Name = value.Name;
@@ -49,7 +49,7 @@ namespace VndrWebApi.Controllers
 
         // PUT api/product/5
         [HttpPut("{id}")]
-        public bool Put(int id, [FromBody] ProductItemViewModel value)
+        public ActionResult<bool> Put(int id, [FromBody] ProductItemViewModel value)
         {
             ProductItem item = new ProductItem();
             item.Id = id;

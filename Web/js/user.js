@@ -1,68 +1,135 @@
-const g_main = document.querySelector('main');
-
-
-function displayUsers(){
-    const displayButton = document.createElement('button'); 
-    displayButton.innerText = "Display Users";
-    displayButton.setAttribute('id','display-btn');
-    g_main.insertAdjacentElement('beforeend',displayButton);
+function setupLoginPage() {
+    const mainNode = document.querySelector('main');
+    const childNode = document.createElement('h1');
+    childNode.innerText = 'Login';
+    mainNode.insertAdjacentElement('afterbegin', childNode);
 }
 
-function addUser(){
+function setupRegistrationPage() {
+    const mainNode = document.querySelector('main');
+    const childNode = document.createElement('h1');
+    childNode.innerText = 'Registration';
+    mainNode.insertAdjacentElement('afterbegin', childNode);
+}
+
+const g_main = document.querySelector('main');
+const g_header = document.querySelector('header');
+
+
+function loginUsers(){
+    const loginButton = document.createElement('button'); 
+    loginButton.innerText = "Login";
+    loginButton.className = 'btn btn-outline-primary';
+    const g_divContainer = document.createElement('div');
+    g_divContainer.setAttribute('id','login-btn');
+    g_header.insertAdjacentElement('beforeend', g_divContainer);
+    const buttonDiv = document.querySelector('header>div');
+    buttonDiv.insertAdjacentElement('beforeend',loginButton);
+}
+
+function addUserBtn(){
     const addButton = document.createElement('button'); 
     addButton.innerText = "Add User";
-    addButton.setAttribute('id','add-btn');
-    g_main.insertAdjacentElement('beforeend',addButton);
+    addButton.className = 'btn btn-outline-primary';
+    const g_divContainer = document.createElement('div');
+    g_divContainer.setAttribute('id','add-btn');
+    g_header.insertAdjacentElement('beforeend', g_divContainer);
+    const buttonDiv = document.querySelector('header :nth-child(2)');
+    buttonDiv.insertAdjacentElement('beforeend',addButton);
 }
-
-function updateUser(){
-    const updateButton = document.createElement('button'); 
-    updateButton.innerText = "Update User";
-    updateButton.setAttribute('id','update-btn');
-    g_main.insertAdjacentElement('beforeend',updateButton);
-}
-
-function deleteUser(){
-    const deleteButton = document.createElement('button'); 
-    deleteButton.innerText = "Delete User";
-    deleteButton.setAttribute('id','delete-btn');
-    g_main.insertAdjacentElement('beforeend',deleteButton);
-}
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
-    displayUsers();
-    addUser();
-    updateUser();
-    deleteUser();
-   
-    let displayNode = document.getElementById('display-btn');
-    displayNode.addEventListener('click', () => {
-      fetch('http://localhost:57005/api/user')
-    //   , { 
-    //   mode: 'cors',
-    //   headers:{
-    //     'Access-Control-Allow-Origin':'*'
-    //     },
-    //    }) 
-       .then((response) => {
-          return response.json();
-      })
-      .then((data) => {
+    loginUsers();
+    addUserBtn();
 
-        console.log(data);
-        //   let output = '<div></div>';
-        //   data.forEach(element => {
-        //       output +=`
-        //       <h1>test</h1>
-        //       <p>${element.firstname}</p>
-        //       `;
-        //   });
-        //   g_main.insertAdjacentElement('afterend',output);
+    let loginNode = document.getElementById('login-btn');
+    loginNode.addEventListener('click', displayLoginUser);
+    function displayLoginUser(){
+      let output = `
+              <div>
+              <div>
+              <br />
+              <label for="username">Username</label>
+              <input class="form-control" type="text" id="username" placeholder="Username">
+              <br />
+              <label for="password">Password</label>
+              <input class="form-control" type="Password" id="password" placeholder="Password">
+              <br />
+              </div>
+              <div>
+              <input id="login-user" class="btn btn-primary" type="submit" value="Login">
+              </div>
+              </div>
+      `;
+    
+      
+          g_main.innerHTML = output;
+          // document.getElementById('login-user').addEventListener('click', /*redirect user*/);
+    }
+
+
+    let addDisplayNode = document.getElementById('add-btn');
+    addDisplayNode.addEventListener('click', displayAddUser)
+   function displayAddUser(){
+           test = `
+           <div>
+           <div>
+           <br />
+           <label for="firstName">First Name</label>
+           <input class="form-control" type="text" id="firstName" placeholder="First name">
+           <br />
+           <label for="lastName">Last Name</label>
+           <input class="form-control" type="text" id="lastName" placeholder="Last name">
+           <br />
+           <label for="username">Username</label>
+           <input class="form-control" type="text" id="username" placeholder="Username">
+           <br />
+           <label for="email">Email</label>
+           <input class="form-control" type="text" id="email" placeholder="Email">
+           <br />
+           <label for="password">Password</label>
+           <input class="form-control" type="Password" id="password" placeholder="Password">
+           <br />
+           </div>
+           <div>
+           <input id="add-user" class="btn btn-primary" type="submit" value="Submit">
+           </div>
+           </div>
+           `;
+           g_main.innerHTML = test;
+           document.getElementById('add-user').addEventListener('click', registerUser);
+   }
+ 
+    function registerUser(e){
+        e.preventDefault();
+        const customerRole = 2;
+        
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let username = document.getElementById('username').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+        let roleId = customerRole;
+    
+
+        fetch('http://localhost:57005/api/user', {
+          method: 'POST',
+          headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-type': 'application/json'
+          },
+
+          body: JSON.stringify({firstName:firstName, lastName:lastName, username:username, 
+                                email:email, password:password, roleId:roleId})
+        }).then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+          console.log(data);
       })
-    })
+
+    }
+    
+
 
   });
-
-

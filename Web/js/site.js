@@ -6,43 +6,54 @@ function setPageTitle(title) {
 function createVendingPage() {
     clearMainNode();
     setupVendingPage();
-    //update nav bar
+    setNavSelection('navVending');
 }
 
 function createLogPage() {
     clearMainNode();
     setupLogPage();
-    //update nav bar
+    setNavSelection('navLog');
 }
 
 function createReportPage() {
     clearMainNode();
     setupReportPage();
-    //update nav bar
+    setNavSelection('navReport');
 }
 
 function createLoginPage() {
     clearMainNode();
     setupLoginPage();
-    //update nav bar
+    setNavSelection('navLogin');
 }
 
 function createRegistrationPage() {
     clearMainNode();
     setupRegistrationPage();
-    //update nav bar
+    setNavSelection('navRegister');
 }
 
 function createAdminPage() {
     clearMainNode();
     setupAdminPage();
-    //update nav bar
+    setNavSelection('navAdmin');
 }
 
 function createAboutPage() {
     clearMainNode();
     setupAboutPage();
-    //update nav bar
+    setNavSelection('navAbout');
+}
+
+function setNavSelection(navLinkId) {
+    //<span class="sr-only">(current)</span> 
+    //div[class*="test"]
+    const newNode = document.getElementById(navLinkId).parentNode;
+    const activeNode = document.querySelector('header nav li[class*="active"]');
+    activeNode.classList.remove("active");
+    newNode.classList.add("active");
+    // spanNode = spanNode.parentNode.removeChild(spanNode);
+    // currentNode.insertAdjacentElement('beforeend', spanNode);
 }
 
 function clearMainNode() {

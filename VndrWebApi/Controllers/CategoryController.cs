@@ -37,23 +37,23 @@ namespace VndrWebApi.Controllers
 
         // POST api/Category
         [HttpPost]
-        public void Post([FromBody] CategoryItemViewModel value)
+        public ActionResult<int> Post([FromBody] CategoryItemViewModel value)
         {
             CategoryItem item = new CategoryItem();
             item.Name = value.Name;
             item.Noise= value.Noise;
-            _db.AddCategoryItem(item);
+            return _db.AddCategoryItem(item);
         }
 
         // PUT api/Category/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] CategoryItemViewModel value)
+        public ActionResult<bool> Put(int id, [FromBody] CategoryItemViewModel value)
         {
             CategoryItem item = new CategoryItem();
             item.Id = id;
             item.Name = value.Name;
             item.Noise = value.Noise;
-            _db.UpdateCategoryItem(item);
+            return _db.UpdateCategoryItem(item);
         }
 
         // DELETE api/Category/5

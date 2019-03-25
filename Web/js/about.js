@@ -104,7 +104,7 @@ function displayAbout(){
 
         divContainer.insertAdjacentElement('afterbegin',cohertDiv) 
 
-        image.setAttribute('src',`/images/${person.image}`);
+        image.setAttribute('src',`images/${person.image}`);
 
         image.classList.add('cohertImage');
         aboutus.classList.add('cohertName');

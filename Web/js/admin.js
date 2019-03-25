@@ -1,3 +1,4 @@
+let g_userRoles = [];
 
 function setupAdminPage(){
 
@@ -21,6 +22,7 @@ function setupAdminPage(){
     getUsersAndRoles()
     .then(([users, roles]) => {
         // both have loaded!
+        g_userRoles = roles;
         users.forEach((user) => {
             let userDisplay = {};
             
@@ -63,7 +65,7 @@ function setupAdminPage(){
 
         let tableRowNode = document.createElement('tr');
         
-
+        
         let nameHeaderDataNode = document.createElement('th');
         nameHeaderDataNode.innerText = "Name";
         tableRowNode.insertAdjacentElement('beforeend', nameHeaderDataNode);
@@ -98,7 +100,30 @@ function setupAdminPage(){
 
             
             let roleRowDataNode = document.createElement('td');
-            roleRowDataNode.innerText = user.roleTitle;
+            //roleRowDataNode.innerText = user.roleTitle;
+
+            let roleDropdownNode = document.createElement('select');
+            
+            roleDropdownNode.classList.add('form-control');
+
+            roleDropdownNode.addEventListener('change', () => {
+                alert("Drop-down changed!!");
+            });
+
+            g_userRoles.forEach((element) => {
+                let selectOption = document.createElement('option');
+
+                selectOption.setAttribute('value', element.id);
+                selectOption.innerText = element.name;
+
+                if(element.name === user.roleTitle){
+                    selectOption.setAttribute('selected', true);
+                }
+                roleDropdownNode.insertAdjacentElement('beforeend', selectOption);
+            });
+
+            roleRowDataNode.insertAdjacentElement('beforeend', roleDropdownNode);
+
             tableRowNode.insertAdjacentElement('beforeend', roleRowDataNode);  
             
             tableBodyNode.insertAdjacentElement('beforeend', tableRowNode);

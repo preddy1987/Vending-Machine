@@ -1,10 +1,13 @@
+window.myUser = JSON.parse(sessionStorage.getItem('key'));
+
 
 function setupLoginPage() {
   const mainNode = document.querySelector('main');
   const divContainer = document.createElement('div');
-  divContainer.classList.add('loginContainer'); 
+  divContainer.id = 'loginContainer'; 
   mainNode.insertAdjacentElement("afterbegin",divContainer);
-    
+  
+
     function getUserNode(){
       const inputUserNode = document.createElement('input');
       inputUserNode.setAttribute('type','text')
@@ -50,12 +53,46 @@ function setupLoginPage() {
       //         <input id="login-user" class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
               
       // `;
-    
+      const testNode = document.createElement('img')
+      testNode.setAttribute('src','C:\Users\amartinez\Desktop');
       getUserNode();
       getPasswordNode();
       getSubmitNode();
           //  mainNode.innerHTML = output;
-          // document.getElementById('login-user').addEventListener('click', /*redirect user*/);
+        document.getElementById('login-user').addEventListener('click', loginUser);
+          
+    }
+    function loginUser(e){
+      e.preventDefault();
+      let username = document.getElementById('username').value;
+      let password = document.getElementById('password').value;
+       fetch('http://localhost:57005/api/user/login', {
+      method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-type': 'application/json'
+      },
+      body: JSON.stringify({username:username, password:password,})
+    }).then((response) => {
+      if(response.status == 404){
+        alert('Not Valid');
+      }
+      else{
+        return response.json();
+      }
+    })
+    .then((data) => {
+      // myUser.firstName = data.firstName;
+      // myUser.lastName = data.lastName;
+      // myUser.userId = data.id;
+      sessionStorage.removeItem('key');
+      sessionStorage.setItem('key',  JSON.stringify([
+        { firstName: data.firstName },
+        { lastName: data.lastName},
+        { userId:data.id}
+      ]));
+  })
+
     }
     displayLoginUser();
 }
@@ -64,8 +101,10 @@ function setupLoginPage() {
 function setupRegistrationPage() {
     const mainNode = document.querySelector('main');
     const divContainer = document.createElement('div');
-    divContainer.classList.add('loginContainer'); 
+    divContainer.id = 'loginContainer'; 
     mainNode.insertAdjacentElement("afterbegin",divContainer);
+
+   
 
     function getFirstNameNode(){
       const firstNameNode = document.createElement('input');

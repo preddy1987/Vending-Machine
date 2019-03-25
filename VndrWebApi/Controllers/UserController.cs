@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,6 @@ namespace VndrWebApi.Controllers
     public class UserController : ControllerBase
     {
         private IVendingService _db = null;
-
         public UserController(IVendingService db)
         {
             _db = db;
@@ -66,6 +66,37 @@ namespace VndrWebApi.Controllers
               RoleId = value.RoleId
           };   
             return _db.AddUserItem(user);
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public ActionResult<UserItem> Login([FromBody] UserItemViewModel value)
+        {
+            UserItem userItem = null;
+            try
+            {
+                userItem = _db.GetUserItem(value.Username);
+              
+            }
+            catch (Exception)
+            {
+            }
+            PasswordManager passHelper = new PasswordManager(value.Password, userItem.Salt);
+            if (userItem != null && passHelper.Verify(userItem.Hash))
+            {
+                return userItem;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+                
+            
+            
+            
+
+            
         }
 
         // PUT api/user/5

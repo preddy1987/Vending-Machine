@@ -1,11 +1,16 @@
+let g_logData = [];
+let g_logUserData = [];
+let g_logProductData = [];
+let g_logOperationData = [];
+
 function getLogData() {
     fetch('http://localhost:57005/api/log/getall') 
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        let logData = data;
-        displayLogData(logData);
+        g_logData = data;
+        displayLogData(g_logData);
       })
       .catch((err) => console.error(err));
 }
@@ -27,8 +32,8 @@ fetch('http://localhost:57005/api/user')
   return response.json();
 })
 .then((data) => {
-  let userData = data;
-  populateUserDropdown(userData);
+  g_logUserData = data;
+  populateUserDropdown(g_logUserData);
 })
 .catch((err) => console.error(err));
 }
@@ -50,8 +55,8 @@ function getAllProducts() {
     return response.json();
   })
   .then((data) => {
-    let productData = data;
-    populateProductsDropdown(productData);
+    g_logProductData = data;
+    populateProductsDropdown(g_logProductData);
   })
   .catch((err) => console.error(err));
 }
@@ -72,8 +77,8 @@ function getAllOperationTypes() {
     return response.json();
   })
   .then((data) => {
-    let opData = data;
-    populateOperationTypeDropdown(opData);
+    g_logOperationData = data;
+    populateOperationTypeDropdown(g_logOperationData);
   })
   .catch((err) => console.error(err));
   }
@@ -108,6 +113,14 @@ function buildHTML () {
   templateHTML +=  logRowTemplateString('Date','Action','Amt');
   templateHTML += '\n</div>'
   mainNode.innerHTML = templateHTML;
+  rowNode = mainNode.querySelector('.col-3');
+  rowNode.classList.add('content');
+  rowNode = mainNode.querySelector('.col-4');
+  rowNode.classList.add('transaction');
+  rowNode.classList.add('content');
+  rowNode = mainNode.querySelector('.col-2');
+  rowNode.classList.add('amount');
+  rowNode.classList.add('content');
   //templateHTML +=  '';
 
 }

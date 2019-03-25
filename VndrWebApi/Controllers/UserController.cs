@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -69,25 +70,33 @@ namespace VndrWebApi.Controllers
 
         [HttpPost]
         [Route("login")]
-        public ActionResult<int> Login([FromBody] UserItemViewModel value)
+        public ActionResult<UserItem> Login([FromBody] UserItemViewModel value)
         {
-            ActionResult result = null;
-
+            UserItem userItem = null;
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    throw new Exception();
-                }
-
-                //result = Redirect("Index", "Vending");
+                userItem = _db.GetUserItem(value.Username);
+              
             }
             catch (Exception)
             {
-                result = NoContent();
+            }
+            PasswordManager passHelper = new PasswordManager(value.Password, userItem.Salt);
+            if (userItem != null && passHelper.Verify(userItem.Hash))
+            {
+                return userItem;
+            }
+            else
+            {
+                return NotFound();
             }
 
-            return result;
+                
+            
+            
+            
+
+            
         }
 
         // PUT api/user/5

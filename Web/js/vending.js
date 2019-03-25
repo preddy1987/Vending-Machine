@@ -68,7 +68,7 @@ function UpdateQuantity(data) {
       })
       .then((data) => {
           inventory = [];
-        createVendingPage();
+          setTimeout(createVendingPage, 3000);
       })
       .catch((err) => console.error(err));
 

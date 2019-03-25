@@ -1,4 +1,4 @@
-let userRoles = [];
+let g_userRoles = [];
 
 function setupAdminPage(){
 
@@ -22,7 +22,7 @@ function setupAdminPage(){
     getUsersAndRoles()
     .then(([users, roles]) => {
         // both have loaded!
-        userRoles = roles;
+        g_userRoles = roles;
         users.forEach((user) => {
             let userDisplay = {};
             
@@ -110,7 +110,7 @@ function setupAdminPage(){
                 alert("Drop-down changed!!");
             });
 
-            userRoles.forEach((element) => {
+            g_userRoles.forEach((element) => {
                 let selectOption = document.createElement('option');
 
                 selectOption.setAttribute('value', element.id);

@@ -5,6 +5,11 @@
 main div {
     /* margin-left: 18%; */
 }
-.btn.btn-lg.btn-primary.btn-block{
+
+.loginContainer label{
+    margin-top: 20px;
+}
+#login-user{
     max-width: 50%;
+    margin-top: 10px;
 }

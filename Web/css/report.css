@@ -2,6 +2,7 @@
     margin-top: 15px;
     margin-bottom: 50px;
     border: solid black;
+    background: white;
 }
 
 #report-title {
@@ -45,6 +46,10 @@
 
 #report-list li .report-item-amount {
     grid-area: amount;
+}
+
+#report-list .grey-background {
+    background: lightsteelblue;
 }
 
 #total-sales {

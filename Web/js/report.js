@@ -152,9 +152,17 @@ function generateReportList(apiurl){
                         });
                     });
 
+                    let rowCount = 0;
+
                     reportProductList.forEach((product) => {
                         if(product.count != 0){
                             let listItem = document.createElement('li');
+
+                            if ((rowCount % 2) == 0) {
+                                listItem.setAttribute('class', 'grey-background');
+                            }
+
+                            rowCount++;
                     
                             let listItemName = document.createElement('div');
                             listItemName.setAttribute('class', 'report-item-name');

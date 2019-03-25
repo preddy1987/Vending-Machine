@@ -339,12 +339,18 @@ function ClearInventoryList() {
 }
 
 function setupVendingPage() {
+    if(myUser ==null)
+    {
+        createLoginPage();
+    }
+    else
+    {
     if (Window.Balance == null)
         {
             Window.Balance = 0;
         }
     inventory = [];
     loadInventory();
- 
+    }
 }
 

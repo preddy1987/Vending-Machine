@@ -1,7 +1,6 @@
 function setupReportPage() {
     const mainNode = document.querySelector('main');
     const reportContainer = document.createElement('div');
-    reportContainer.setAttribute('class', 'container');
     reportContainer.setAttribute('id', 'report-box');
     mainNode.insertAdjacentElement('afterbegin', reportContainer);
 
@@ -178,9 +177,11 @@ function generateReportList(apiurl){
                         }
                     });
 
-                    const reportFormTotalSales = document.getElementById("total-sales")
-
-                    reportFormTotalSales.innerText = "Total Sales: $" + reportRunningTotal.toFixed(2);
+                    const reportFormTotalSales = document.getElementById("total-sales");
+                    const reportFormTotalSalesHead = document.createElement('span');
+                    reportFormTotalSalesHead.innerText = "Total Sales:";
+                    reportFormTotalSales.insertAdjacentElement('beforeend', reportFormTotalSalesHead);
+                    reportFormTotalSales.insertAdjacentText('beforeend', ` $${reportRunningTotal.toFixed(2)}`);
                 })
                 .catch((err) => {console.error(err)});
         })

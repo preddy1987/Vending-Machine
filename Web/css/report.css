@@ -1,8 +1,13 @@
 #report-box {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 10%;
+    margin-left: 10%;
     margin-top: 15px;
     margin-bottom: 50px;
     border: solid black;
     background: white;
+    width: 100%;
 }
 
 #report-title {
@@ -13,7 +18,7 @@
 #report-form {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-around;
     margin-bottom: 25px;
     margin-top: 15px;
@@ -55,4 +60,8 @@
 #total-sales {
     padding: 0 100px 25px 40px;
     text-align: right;
+}
+
+#report-box span {
+    font-weight: bold;
 }

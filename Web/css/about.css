@@ -5,6 +5,13 @@
     display: grid;
     grid-template-columns: auto auto auto auto;
 } */
+
+.carousel-caption > h3{
+    text-shadow: 2px 2px black,
+                2px -2px black,
+                -2px 2px black,
+                -2px -2px black;
+}
 #cohertContainer{
     background: linear-gradient(white,#60b0f4);
     height: 100vh;

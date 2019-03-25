@@ -241,7 +241,13 @@ function setupRegistrationPage() {
          return response.json();
         })
         .then((data) => {
-          console.log(data);
+          sessionStorage.setItem('key',  JSON.stringify([
+            { firstName: data.firstName },
+            { lastName: data.lastName},
+            { userId:data.id}
+          ]));
+          myUser = JSON.parse(sessionStorage.getItem('key'));
+          createVendingPage();
       })
       }
       else{

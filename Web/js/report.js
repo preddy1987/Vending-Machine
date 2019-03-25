@@ -3,104 +3,79 @@ function setupReportPage() {
     const childNode = document.createElement('h1');
     childNode.innerText = 'Report';
     mainNode.insertAdjacentElement('afterbegin', childNode);
-}
-
-const head = document.querySelector('head');
-const reportCSS = document.createElement('link');
-reportCSS.setAttribute('href', "css/report.css");
-reportCSS.setAttribute('rel', "stylesheet");
-head.insertAdjacentElement('beforeend', reportCSS);
-
-const allUserOption = document.createElement('option');
-allUserOption.setAttribute('value', 'all');
-allUserOption.innerText = 'All';
-
-const usersInput = document.createElement('select');
-usersInput.setAttribute('id', 'User');
-usersInput.setAttribute('name', 'User');
-usersInput.insertAdjacentElement('beforeend', allUserOption);
-
-const totalSales = document.createElement('div');
-totalSales.setAttribute('id', 'totalSales');
-
-const main = document.querySelector('main');
-const years = [];
-const currentYear = (new Date()).getFullYear();
-
-for(let i = 2017; i <= currentYear; i++){
-    years.push(i);
-}
-
-const productList = [];
-
-fetch(`http://localhost:57005/api/product`)
-    .then((response) => {
-        return response.json();
-    })
-    .then((items) => {
-        items.forEach((item) => {
-            let product = {};
-            product.id = item.id;
-            product.name = item.name;
-            product.count = 0;
-            productList.push(product);
-        });
-    })
-    .catch((err) => {console.error(err)});
-
-fetch(`http://localhost:57005/api/user`)
-    .then((response) => {
-        return response.json();
-    })
-    .then((items) => {
-        items.forEach((item) => {
-            const option = document.createElement('option');
-            option.setAttribute('value', item.id);
-            option.innerText = (item.firstName + " " + item.lastName);
-            usersInput.insertAdjacentElement('beforeend', option);
-        });
-    })
-    .catch((err) => {console.error(err)});
-
-function createReportPage(){
-    const titleTag = document.createElement('h2');
-    titleTag.innerText = 'Reports';
-    main.insertAdjacentElement('afterbegin', titleTag);
-    
+        
     const reportForm = document.createElement('form');
-    reportForm.addEventListener('change', repopulateList);
-    main.insertAdjacentElement('beforeend', reportForm);
+    reportForm.setAttribute('id', 'reportForm');
+    reportForm.addEventListener('change', repopulateReportList);
+    mainNode.insertAdjacentElement('beforeend', reportForm);
+    
+    const reportFormDateLabel = document.createElement('label');
+    reportFormDateLabel.innerText = 'Year';
+    reportFormDateLabel.setAttribute('for', 'Year');
+    reportForm.insertAdjacentElement('beforeend', reportFormDateLabel);
 
-    const dateLabel = document.createElement('label');
-    dateLabel.innerText = 'Year';
-    dateLabel.setAttribute('for', 'Year');
-    reportForm.insertAdjacentElement('beforeend', dateLabel);
+    const reportFormDateInput = document.createElement('select');
+    reportFormDateInput.setAttribute('id', 'Year')
+    reportFormDateInput.setAttribute('name', 'Year')
 
-    const dateInput = document.createElement('select');
-    dateInput.setAttribute('id', 'Year')
-    dateInput.setAttribute('name', 'Year')
+    const years = [];
+    const currentYear = (new Date()).getFullYear();
+    for(let i = 2017; i <= currentYear; i++){
+        years.push(i);
+    }
     years.forEach(function(year){
         const option = document.createElement('option');
         option.setAttribute('value', year);
         option.innerText = year;
-        dateInput.insertAdjacentElement('beforeend', option);
+        reportFormDateInput.insertAdjacentElement('beforeend', option);
     });
-    reportForm.insertAdjacentElement('beforeend', dateInput);
+    reportForm.insertAdjacentElement('beforeend', reportFormDateInput);
 
-    const usersLabel = document.createElement('label');
-    usersLabel.innerText = 'User';
-    usersLabel.setAttribute('for', 'User');
-    reportForm.insertAdjacentElement('beforeend', usersLabel);
+    const reportFormUsersLabel = document.createElement('label');
+    reportFormUsersLabel.innerText = 'User';
+    reportFormUsersLabel.setAttribute('for', 'User');
+    reportForm.insertAdjacentElement('beforeend', reportFormUsersLabel);
+
+    const reportFormAllUserOption = document.createElement('option');
+    reportFormAllUserOption.setAttribute('value', 'all');
+    reportFormAllUserOption.innerText = 'All';
+
+    const reportFormUsersInput = document.createElement('select');
+    reportFormUsersInput.setAttribute('id', 'User');
+    reportFormUsersInput.setAttribute('name', 'User');
+    reportFormUsersInput.insertAdjacentElement('beforeend', reportFormAllUserOption);
+    reportForm.insertAdjacentElement('beforeend', reportFormUsersInput);
+
+    fetch(`http://localhost:57005/api/user`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((items) => {
+            items.forEach((item) => {
+                const option = document.createElement('option');
+                option.setAttribute('value', item.id);
+                option.innerText = (item.firstName + " " + item.lastName);
+                reportFormUsersInput.insertAdjacentElement('beforeend', option);
+            });
+        })
+        .catch((err) => {console.error(err)});
+
+    const reportList = document.createElement('ul');
+    reportList.setAttribute('id', 'reportList');
+    mainNode.insertAdjacentElement('beforeend', reportList);
+
+    const reportFormTotalSales = document.createElement('div');
+    reportFormTotalSales.setAttribute('id', 'totalSales');
+    mainNode.insertAdjacentElement('beforeend', reportFormTotalSales);
     
-    reportForm.insertAdjacentElement('beforeend', usersInput);
-
-    const list = document.createElement('ul');
-    main.insertAdjacentElement('beforeend', list);
-
-    main.insertAdjacentElement('beforeend', totalSales);
+    let dummyEvent = {}; //created to avoid any runtime errors when first calling repopulateReportList()
+    dummyEvent.preventDefault = () => {
+        return null;
+    }
+    repopulateReportList(dummyEvent);
 }
 
-function repopulateList(event){
+function repopulateReportList(event){
     event.preventDefault();
     let dateSelect = document.getElementById('Year');
     let selectedYear = dateSelect.options[dateSelect.selectedIndex].value;
@@ -108,60 +83,72 @@ function repopulateList(event){
     let userSelect = document.getElementById('User');
     let selectedUser = userSelect.options[userSelect.selectedIndex].value;
 
-    const list = document.querySelector("ul");
-    while(list.firstChild){
-        list.firstChild.remove();
+    const reportList = document.getElementById('reportList');
+    while(reportList.firstChild){
+        reportList.firstChild.remove();
     }
-
-    productList.forEach((product) => {
-        product.count = 0;
-    });
     
     if(selectedUser == 'all') {
-        generateList(`http://localhost:57005/api/transactionitem/foryear/${selectedYear}`);
+        generateReportList(`http://localhost:57005/api/transactionitem/foryear/${selectedYear}`);
     }
     else {
-        generateList(`http://localhost:57005/api/transactionitem/foryearanduser/${selectedYear}/${selectedUser}`);
+        generateReportList(`http://localhost:57005/api/transactionitem/foryearanduser/${selectedYear}/${selectedUser}`);
     }
 }
 
-function generateList(apiurl){
-    const list = document.querySelector("ul");
-    let runningTotal = 0;
+function generateReportList(apiurl){
+    const reportList = document.getElementById('reportList');
+    let reportRunningTotal = 0;
+    const reportProductList = [];
 
-    fetch(apiurl)
-    .then((response) => {
-        return response.json();
-    })
-    .then((items) => {
-        items.forEach((item) => {
-            productList.forEach((product) => {
-                if(item.productId == product.id){
-                    product.count += 1;
-                    runningTotal += item.salePrice;                    
-                }
+    fetch(`http://localhost:57005/api/product`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((items) => {
+            items.forEach((item) => {
+                let product = {};
+                product.id = item.id;
+                product.name = item.name;
+                product.count = 0;
+                reportProductList.push(product);
             });
-        });
 
-        productList.forEach((product) => {
-            if(product.count != 0){
-                let listItem = document.createElement('li');
-        
-                let listItemName = document.createElement('div');
-                listItemName.innerText = product.name;
-                listItem.insertAdjacentElement('beforeend', listItemName);
-        
-                let listItemCount = document.createElement('div');
-                listItemCount.innerText = product.count;
-                listItem.insertAdjacentElement('beforeend', listItemCount);
-        
-                list.insertAdjacentElement('beforeend', listItem);
-            }
-        });
+            fetch(apiurl)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((items) => {
+                    items.forEach((item) => {
+                        reportProductList.forEach((product) => {
+                            if(item.productId == product.id){
+                                product.count += 1;
+                                reportRunningTotal += item.salePrice;                    
+                            }
+                        });
+                    });
 
-        totalSales.innerText = "Total Sales: $" + runningTotal.toFixed(2);
-    })
-    .catch((err) => {console.error(err)});
+                    reportProductList.forEach((product) => {
+                        if(product.count != 0){
+                            let listItem = document.createElement('li');
+                    
+                            let listItemName = document.createElement('div');
+                            listItemName.innerText = product.name;
+                            listItem.insertAdjacentElement('beforeend', listItemName);
+                    
+                            let listItemCount = document.createElement('div');
+                            listItemCount.innerText = product.count;
+                            listItem.insertAdjacentElement('beforeend', listItemCount);
+                    
+                            reportList.insertAdjacentElement('beforeend', listItem);
+                        }
+                    });
+
+                    const reportFormTotalSales = document.getElementById("totalSales")
+
+                    reportFormTotalSales.innerText = "Total Sales: $" + reportRunningTotal.toFixed(2);
+                })
+                .catch((err) => {console.error(err)});
+        })
+        .catch((err) => {console.error(err)});
 }
-
-createReportPage();

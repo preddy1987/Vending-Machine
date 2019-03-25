@@ -1,9 +1,17 @@
-.cohertContainer{
+/* main{
     background-image: url("/images/whitebackground.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     display: grid;
     grid-template-columns: auto auto auto auto;
+} */
+#cohertContainer{
+    background: linear-gradient(white,#60b0f4);
+    height: 100vh;
+    width: 100vmax;
+}
+#cohertContainer > h2{
+    text-align: center;
 }
 .cohertImage{
     display:block;
@@ -13,7 +21,7 @@
     margin:auto;
 
 }
-.cohertName{
+/* .cohertName{
     font-weight: bold;
     font-size: 20px;
 }
@@ -21,13 +29,13 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    align-content: center;
-    animation:load_up 2s forwards;
-    -webkit-animation:load_up 2s forwards;
-    /* border: red solid 1px; */
+    align-content: center;  */
+    /* animation:load_up 2s forwards;
+    -webkit-animation:load_up 2s forwards; */
+    /* border: red solid 1px; 
 }
-
+/* 
  @keyframes load_up{
     from{opacity:0;top:100%}
     to{opacity:1;top:0%;}
-    }
+    } */

@@ -180,6 +180,7 @@ function generateReportList(apiurl){
                     });
 
                     const reportFormTotalSales = document.getElementById("total-sales");
+                    reportFormTotalSales.innerText = '';
                     const reportFormTotalSalesHead = document.createElement('span');
                     reportFormTotalSalesHead.innerText = "Total Sales:";
                     reportFormTotalSales.insertAdjacentElement('beforeend', reportFormTotalSalesHead);

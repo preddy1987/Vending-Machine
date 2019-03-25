@@ -4,10 +4,8 @@
 }
 
 #loginContainer {
-    width: 100vmax;
+    width: 100%;
     height: 100vh;
-    margin-left:-13%;
-    margin-right: -13%;
 }
 #loginContainer *{
     margin-left: 25%;

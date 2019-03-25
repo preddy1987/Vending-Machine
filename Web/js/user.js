@@ -225,10 +225,16 @@ function setupRegistrationPage() {
           body: JSON.stringify({firstName:firstName, lastName:lastName, username:username, 
                                 email:email, password:password, roleId:roleId})
         }).then((response) => {
-          sessionStorage.clear();
-         return response.json();
+          if(response.status == 404){
+            alert('Not Valid');
+          }
+          else{
+            sessionStorage.clear();
+            return response.json();
+          }
         })
         .then((data) => {
+          if(data){
           sessionStorage.setItem('key',  JSON.stringify([
             { firstName: data.firstName },
             { lastName: data.lastName},
@@ -236,6 +242,7 @@ function setupRegistrationPage() {
           ]));
           myUser = JSON.parse(sessionStorage.getItem('key'));
           createVendingPage();
+        }
       })
       }
       else{

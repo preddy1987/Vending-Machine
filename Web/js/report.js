@@ -1,20 +1,3 @@
-const g_reportProductList = [];
-
-fetch(`http://localhost:57005/api/product`)
-    .then((response) => {
-        return response.json();
-    })
-    .then((items) => {
-        items.forEach((item) => {
-            let product = {};
-            product.id = item.id;
-            product.name = item.name;
-            product.count = 0;
-            g_reportProductList.push(product);
-        });
-    })
-    .catch((err) => {console.error(err)});
-
 function setupReportPage() {
     const mainNode = document.querySelector('main');
     const childNode = document.createElement('h1');

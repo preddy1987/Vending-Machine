@@ -17,7 +17,6 @@ namespace VndrWebApi.Controllers
     public class UserController : ControllerBase
     {
         private IVendingService _db = null;
-
         public UserController(IVendingService db)
         {
             _db = db;
@@ -66,6 +65,29 @@ namespace VndrWebApi.Controllers
               RoleId = value.RoleId
           };   
             return _db.AddUserItem(user);
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public ActionResult<int> Login([FromBody] UserItemViewModel value)
+        {
+            ActionResult result = null;
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception();
+                }
+
+                //result = Redirect("Index", "Vending");
+            }
+            catch (Exception)
+            {
+                result = NoContent();
+            }
+
+            return result;
         }
 
         // PUT api/user/5

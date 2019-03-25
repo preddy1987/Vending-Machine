@@ -1,0 +1,106 @@
+.imageImg {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.imageDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.rowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* border: 2px solid red; */
+    
+}
+
+.vendingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* border: 2px solid black; */
+    width: 70%;
+    margin: 0%;
+
+}
+
+.asideContainer {
+    width: 30%;
+    /* border: 2px solid purple; */
+}
+
+.asideMainDiv {
+    margin-top: 30%;
+    margin-bottom: 30%;
+    margin-right: 20%;
+    margin-left: 20%;
+    /* border: 2px solid salmon; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 70%;
+}
+
+.asideSubDivMoney {
+    height: 15%;
+    border: 2px solid blueviolet;
+    font-size: 50px;
+    font-weight: bolder;
+    text-align: center;
+
+}
+
+.asideSubDivButtons {
+    height: 7%;
+    margin-top: 15%;
+    margin-bottom: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* border: 2px solid blueviolet; */
+
+}
+
+.asideSubDivChange {
+    height: 30%;
+    /* border: 2px solid blueviolet; */
+}
+
+.vendItemContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+    height: 90%;
+    border: 2px solid blue;
+    margin: 10px;
+}
+
+.nameDiv {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.priceDiv {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+
+}
+
+#statusMessage {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+

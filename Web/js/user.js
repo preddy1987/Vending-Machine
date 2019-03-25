@@ -78,21 +78,20 @@ function setupLoginPage() {
         alert('Not Valid');
       }
       else{
+        sessionStorage.clear();
         return response.json();
       }
     })
     .then((data) => {
-      // myUser.firstName = data.firstName;
-      // myUser.lastName = data.lastName;
-      // myUser.userId = data.id;
-      sessionStorage.removeItem('key');
       sessionStorage.setItem('key',  JSON.stringify([
         { firstName: data.firstName },
         { lastName: data.lastName},
         { userId:data.id}
       ]));
+      myUser = JSON.parse(sessionStorage.getItem('key'));
+      createVendingPage();
+      
   })
-
     }
     displayLoginUser();
 }

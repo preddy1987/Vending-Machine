@@ -90,13 +90,6 @@ namespace VndrWebApi.Controllers
             {
                 return NotFound();
             }
-
-                
-            
-            
-            
-
-            
         }
 
         // PUT api/user/5

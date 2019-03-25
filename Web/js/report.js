@@ -23,8 +23,9 @@ function setupReportPage() {
     reportDateDiv.insertAdjacentElement('beforeend', reportFormDateLabel);
 
     const reportFormDateInput = document.createElement('select');
-    reportFormDateInput.setAttribute('id', 'Year')
-    reportFormDateInput.setAttribute('name', 'Year')
+    reportFormDateInput.setAttribute('id', 'Year');
+    reportFormDateInput.setAttribute('class', 'form-control');
+    reportFormDateInput.setAttribute('name', 'Year');
 
     const years = [];
     const currentYear = (new Date()).getFullYear();
@@ -53,6 +54,7 @@ function setupReportPage() {
 
     const reportFormUsersInput = document.createElement('select');
     reportFormUsersInput.setAttribute('id', 'User');
+    reportFormUsersInput.setAttribute('class', 'form-control');
     reportFormUsersInput.setAttribute('name', 'User');
     reportFormUsersInput.insertAdjacentElement('beforeend', reportFormAllUserOption);
     reportUserDiv.insertAdjacentElement('beforeend', reportFormUsersInput);

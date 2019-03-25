@@ -42,8 +42,10 @@
 
 #report-list li {
     display: grid;
-    grid-template-columns: 10% 1fr 1fr 1fr 10%;
+    grid-template-columns: 20% 1fr 10% 1fr 20%;
     grid-template-areas: ". name . amount .";
+    padding: 5px 0;
+    align-items: center;
 }
 
 #report-list li .report-item-name {
@@ -52,6 +54,7 @@
 
 #report-list li .report-item-amount {
     grid-area: amount;
+    text-align: right;
 }
 
 #report-list .grey-background {

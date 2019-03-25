@@ -24,6 +24,8 @@
     justify-content: flex-start;
     /* border: 2px solid black; */
     width: 70%;
+    margin: 0%;
+
 }
 
 .asideContainer {
@@ -74,7 +76,7 @@
     justify-content: center;
     width: 30%;
     height: 90%;
-    /* border: 2px solid blue; */
+    border: 2px solid blue;
     margin: 10px;
 }
 
@@ -101,3 +103,4 @@ main {
     flex-direction: row;
     justify-content: flex-start;
 }
+

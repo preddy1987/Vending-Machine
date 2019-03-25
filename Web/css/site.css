@@ -77,9 +77,13 @@ body {
 .navbar-brand {
     width: 10%;
 }
-body{
+main{
     background: linear-gradient(white,#60b0f4);
-    width: 100vmax;
-    height: 100vmax;
-    background-repeat: repeat;
+    /* width: 100vmax; */
+    /* height: 100vmax; */
+    /* background-repeat: repeat;  */
+    /* padding-bottom: 100px; */
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 50px;
 }

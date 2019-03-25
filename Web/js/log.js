@@ -149,18 +149,21 @@ function buildHTML () {
 
 // fromlogdatetime=2019-03-20T15:00:00.000&tologdatetime=2019-03-21T15:00:00.000
 
-// function doFromDate(event) {
-//   alert(`From date input change. Value=${event.currentTarget.value}`);
-// }
+function doFromDate(event) {
+  alert(`From date input change. Value=${event.currentTarget.value}`);
+  if (document.getElementById("fromDateInput").value != "") {
+    document.getElementById("toDateInput").value = document.getElementById("fromDateInput").value;
+  }
+}
 
 // function doToDate() {
 //   alert(`To date input change. Value=${event.currentTarget.value}`);
 // }
 
-// function fromDateEvent() {
-//   const fromDateNode = document.getElementById("fromDateInput");
-//   fromDateNode.addEventListener('change',doFromDate); 
-// }
+ function fromDateEvent() {
+  const fromDateNode = document.getElementById("fromDateInput");
+  fromDateNode.addEventListener('change',doFromDate); 
+ }
 
 // function toDateEvent() {
 //   const toDateNode = document.getElementById("toDateInput");
@@ -175,13 +178,18 @@ function displayDateEvent() {
 function getDateValues () {
   let fromDate = document.getElementById("fromDateInput").value;
   let toDate = document.getElementById("toDateInput").value;
+  if ((fromDate === "")&&(toDate==="")) {
+    getAllLogData();
+  }
+  else {
   getLogData(fromDate, toDate);
+  }
 }
 
 function setupLogPage() {
     buildHTML();
     fromDateEvent();  // set change event on from date input box
-    toDateEvent();    // set change event on to date input box
+    //toDateEvent();    // set change event on to date input box
     displayDateEvent(); // set clock event on display data button
     getAllUsers();
     getAllProducts();

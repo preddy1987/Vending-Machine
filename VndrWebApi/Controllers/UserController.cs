@@ -80,7 +80,7 @@ namespace VndrWebApi.Controllers
                     throw new Exception();
                 }
 
-                result = Redirect("Index", "Vending");
+                //result = Redirect("Index", "Vending");
             }
             catch (Exception)
             {

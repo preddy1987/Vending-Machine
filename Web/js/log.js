@@ -1,13 +1,24 @@
-function doDataLoad() {
+function getLogData() {
     fetch('http://localhost:57005/api/log/getall') 
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         let logData = data;
-        /*displayGroceries(groceries);*/
+        displayLogData(logData);
       })
       .catch((err) => console.error(err));
+}
+
+function displayLogData(logData) {
+  logDivNode = document.querySelector('.container');
+  logData.forEach ( (entry) => {
+    const rowNode = document.createElement('div');
+    rowNode.classList.add('log-row');
+    let logHTML = logRowTemplateString(entry.timeStampStr,entry.operationType, "$"+`${entry.price.toFixed(2)}`);
+    rowNode.innerHTML = logHTML;
+    logDivNode.insertAdjacentElement('beforeend',rowNode);
+ });
 }
 
 function getAllUsers() {
@@ -77,6 +88,14 @@ function populateOperationTypeDropdown(opData) {
   });
 }
 
+function logRowTemplateString(dateString,opString,amtString){
+  rowTemplateHTML =  `<div class="col-sm-1"></div>\n<div class="col-3">${dateString}</div>\n`;
+  rowTemplateHTML +=  `<div class="col-4">${opString}</div>\n<div class="col-2">${amtString}</div>`;
+  rowTemplateHTML +=  '<div class="col-sm-1"></div>\n';
+  rowTemplateHTML +=  '</div>';
+  return rowTemplateHTML;
+}
+
 function buildHTML () {
   const mainNode = document.querySelector('main');
   let templateHTML= '<div class="container" id="logBox">\n';
@@ -85,12 +104,12 @@ function buildHTML () {
   templateHTML +=       '<div class="logDropDowns">\n<select id="users">\n<option value="all">All Users</option>\n</select>\n</div>';
   templateHTML +=       '<div class="logDropDowns">\n<select id="products">\n<option value="all">All Products</option>\n</select>\n</div>';
   templateHTML +=  '</div>';
-  templateHTML +=  '<div class="row headerRow">\n<div class="col-sm-1"></div>\n<div class="col-3 content">\n\tDate\n</div>';
-  templateHTML +=  '<div class="col-4 transaction content">\n\tAction\n</div>\n<div class="col-2 amount content">\n\tAmt\n</div>';
-  templateHTML +=  '<div class="col-sm-1"></div>\n';
-  templateHTML +=  '</div>\n</div>';
+  templateHTML +=  '<div class="log-row log-headerRow">\n'
+  templateHTML +=  logRowTemplateString('Date','Action','Amt');
+  templateHTML += '\n</div>'
   mainNode.innerHTML = templateHTML;
   //templateHTML +=  '';
+
 }
 
 function setupLogPage() {
@@ -98,7 +117,7 @@ function setupLogPage() {
     getAllUsers();
     getAllProducts();
     getAllOperationTypes();
-    doDataLoad();
+    getLogData();
 }
 /*
 

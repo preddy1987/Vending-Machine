@@ -162,7 +162,7 @@ function CashOut() {
         Window.Balance = 0;
         UpdateBalance();
         change = CalculateChange(holdBalance);
-        let msg = `Take your change ($ ${CurrencyFormatted(holdBalance)} ).\nquarters: ${change.quarters}\ndimes: ${change.dimes}\nnickles: ${change.nickles}`;
+        let msg = `Take your change ($${CurrencyFormatted(holdBalance)}).\nquarters: ${change.quarters}\ndimes: ${change.dimes}\nnickles: ${change.nickles}`;
         ShowStatusMessage(msg, "btn-success");
     }
 }
@@ -210,6 +210,7 @@ function displayInventoryList(data) {
         asideSubDiv2.classList.add('asideSubDivButtons');
         asideMainDiv.insertAdjacentElement("beforeend", asideSubDiv2);
             
+            //Build aside buttons.
             let moneyButton1  = document.createElement('button');
             moneyButton1.classList.add('btn');
             moneyButton1.classList.add('btn-success');
@@ -342,6 +343,7 @@ function setupVendingPage() {
         {
             Window.Balance = 0;
         }
+    inventory = [];
     loadInventory();
  
 }

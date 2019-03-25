@@ -2,9 +2,10 @@
 function setupLoginPage() {
   const mainNode = document.querySelector('main');
   const divContainer = document.createElement('div');
-  divContainer.classList.add('loginContainer'); 
+  divContainer.id = 'loginContainer'; 
   mainNode.insertAdjacentElement("afterbegin",divContainer);
-    
+  
+
     function getUserNode(){
       const inputUserNode = document.createElement('input');
       inputUserNode.setAttribute('type','text')
@@ -50,12 +51,14 @@ function setupLoginPage() {
       //         <input id="login-user" class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
               
       // `;
-    
+      const testNode = document.createElement('img')
+      testNode.setAttribute('src','C:\Users\amartinez\Desktop');
       getUserNode();
       getPasswordNode();
       getSubmitNode();
           //  mainNode.innerHTML = output;
           // document.getElementById('login-user').addEventListener('click', /*redirect user*/);
+          
     }
     displayLoginUser();
 }
@@ -64,8 +67,10 @@ function setupLoginPage() {
 function setupRegistrationPage() {
     const mainNode = document.querySelector('main');
     const divContainer = document.createElement('div');
-    divContainer.classList.add('loginContainer'); 
+    divContainer.id = 'loginContainer'; 
     mainNode.insertAdjacentElement("afterbegin",divContainer);
+
+   
 
     function getFirstNameNode(){
       const firstNameNode = document.createElement('input');

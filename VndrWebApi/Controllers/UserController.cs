@@ -39,7 +39,7 @@ namespace VndrWebApi.Controllers
 
         // POST api/user
         [HttpPost]
-        public ActionResult<int> Post([FromBody] UserItemViewModel value)
+        public ActionResult<UserItem> Post([FromBody] UserItemViewModel value)
         {
             UserItem userItem = null;
             try
@@ -64,8 +64,9 @@ namespace VndrWebApi.Controllers
               Hash = passHelper.Hash,
               Salt = passHelper.Salt,
               RoleId = value.RoleId
-          };   
-            return _db.AddUserItem(user);
+          };
+            _db.AddUserItem(user);
+            return user;
         }
 
         [HttpPost]

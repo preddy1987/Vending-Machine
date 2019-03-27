@@ -5,6 +5,13 @@
     display: grid;
     grid-template-columns: auto auto auto auto;
 } */
+
+.carousel-caption > h3{
+    text-shadow: 2px 2px black,
+                2px -2px black,
+                -2px 2px black,
+                -2px -2px black;
+}
 #cohertContainer{
     background: linear-gradient(white,#60b0f4);
     height: 100vh;
@@ -14,11 +21,10 @@
     text-align: center;
 }
 .cohertImage{
-    display:block;
     width:250px;
-    height: 250px;
+    height: auto;
     border-radius: 50%; 
-    margin:auto;
+    /* margin:auto; */
 
 }
 /* .cohertName{

@@ -44,21 +44,9 @@ function setupLoginPage() {
       divContainer.insertAdjacentElement('beforeend',submitNode);
     }
     function displayLoginUser(){
-      // let output = `
-          
-      //         <label for="username">Username</label>
-      //         <input class="form-control" type="text" id="username" placeholder="Username">
-      //         <label for="password">Password</label>
-      //         <input class="form-control" type="Password" id="password" placeholder="Password">
-      //         <input id="login-user" class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
-              
-      // `;
-      const testNode = document.createElement('img')
-      testNode.setAttribute('src','C:\Users\amartinez\Desktop');
       getUserNode();
       getPasswordNode();
       getSubmitNode();
-          //  mainNode.innerHTML = output;
         document.getElementById('login-user').addEventListener('click', loginUser);
           
     }
@@ -90,7 +78,6 @@ function setupLoginPage() {
       ]));
       myUser = JSON.parse(sessionStorage.getItem('key'));
       createVendingPage();
-      
   })
     }
     displayLoginUser();
@@ -238,9 +225,16 @@ function setupRegistrationPage() {
           body: JSON.stringify({firstName:firstName, lastName:lastName, username:username, 
                                 email:email, password:password, roleId:roleId})
         }).then((response) => {
-         return response.json();
+          if(response.status == 404){
+            alert('Not Valid');
+          }
+          else{
+            sessionStorage.clear();
+            return response.json();
+          }
         })
         .then((data) => {
+          if(data){
           sessionStorage.setItem('key',  JSON.stringify([
             { firstName: data.firstName },
             { lastName: data.lastName},
@@ -248,6 +242,7 @@ function setupRegistrationPage() {
           ]));
           myUser = JSON.parse(sessionStorage.getItem('key'));
           createVendingPage();
+        }
       })
       }
       else{

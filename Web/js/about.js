@@ -107,19 +107,44 @@ function displayAbout(){
     const indicatorLi4 = document.createElement('li');
     const indicatorLi5 = document.createElement('li');
     const lightboxDiv = document.createElement('div');
+    const controlSpanL1 = document.createElement('span');
+    const controlSpanL2 = document.createElement('span');
+    const controlSpanR1 = document.createElement('span');
+    const controlSpanR2 = document.createElement('span');
 
     lightboxDiv.setAttribute('id','mdb-lightbox-ui');
     
-
-    controlAnchorL.classList.add('btn-floating');
-    controlAnchorL.classList.add('btn-secondary');
+    controlAnchorL.classList.add('carousel-control-prev');
     controlAnchorL.setAttribute('href','#carousel-with-lb');
+    controlAnchorL.setAttribute('role','button');
     controlAnchorL.setAttribute('data-slide','prev');
 
-    controlAnchorR.classList.add('btn-floating');
-    controlAnchorR.classList.add('btn-secondary');
+    controlAnchorR.classList.add('carousel-control-next');
     controlAnchorR.setAttribute('href','#carousel-with-lb');
+    controlAnchorR.setAttribute('role','button');
     controlAnchorR.setAttribute('data-slide','next');
+
+    controlSpanL1.classList.add('carousel-control-prev-icon');
+    controlSpanL1.setAttribute('area-hidden','true');
+
+    controlSpanL2.classList.add('sr-only');
+    controlSpanL2.innerText = 'Previous'
+
+    controlSpanR1.classList.add('carousel-control-next-icon');
+    controlSpanR1.setAttribute('area-hidden','true');
+
+    controlSpanR2.classList.add('sr-only');
+    controlSpanR2.innerText = 'Next'
+
+    // controlAnchorL.classList.add('btn-floating');
+    // controlAnchorL.classList.add('btn-secondary');
+    // controlAnchorL.setAttribute('href','#carousel-with-lb');
+    // controlAnchorL.setAttribute('data-slide','prev');
+
+    // controlAnchorR.classList.add('btn-floating');
+    // controlAnchorR.classList.add('btn-secondary');
+    // controlAnchorR.setAttribute('href','#carousel-with-lb');
+    // controlAnchorR.setAttribute('data-slide','next');
 
     controlIL.classList.add('fas');
     controlIL.classList.add('fa-chevron-left');
@@ -131,6 +156,7 @@ function displayAbout(){
     carouseldiv.classList.add(`slide`);
     carouseldiv.classList.add(`carousel-multi-item`);
     carouseldiv.setAttribute(`data-ride`,`carousel`);
+    carouseldiv.setAttribute(`data-interval`,`2000`);
 
 
     indicatorOl.classList.add('carousel-indicators');
@@ -165,6 +191,9 @@ function displayAbout(){
     divContainer.classList.add('mdb-lightbox');
     divContainer.setAttribute('role','listbox');
 
+
+
+
     carouseldiv.insertAdjacentElement("afterbegin",divContainer);
     divContainer.insertAdjacentElement('afterbegin',lightboxDiv);
     carouseldiv.insertAdjacentElement('afterbegin',indicatorOl);
@@ -173,11 +202,22 @@ function displayAbout(){
     indicatorOl.insertAdjacentElement('afterbegin',indicatorLi3);
     indicatorOl.insertAdjacentElement('afterbegin',indicatorLi2);
     indicatorOl.insertAdjacentElement('afterbegin',indicatorLi1);
-    controlAnchorR.insertAdjacentElement('afterbegin',controlIR);
-    controlDiv.insertAdjacentElement('afterbegin',controlAnchorR);
-    controlAnchorL.insertAdjacentElement('afterbegin',controlIL);
-    controlDiv.insertAdjacentElement('afterbegin',controlAnchorL);
-    carouseldiv.insertAdjacentElement('afterbegin',controlDiv);
+
+    // controlAnchorR.insertAdjacentElement('afterbegin',controlIR);
+    // controlDiv.insertAdjacentElement('afterbegin',controlAnchorR);
+    // controlAnchorL.insertAdjacentElement('afterbegin',controlIL);
+    // controlDiv.insertAdjacentElement('afterbegin',controlAnchorL);
+
+    carouseldiv.insertAdjacentElement('afterbegin',controlAnchorR);
+    carouseldiv.insertAdjacentElement('afterbegin',controlAnchorL);
+
+    controlAnchorR.insertAdjacentElement('afterbegin',controlSpanR1);
+    controlAnchorR.insertAdjacentElement('afterbegin',controlSpanR2);
+
+    controlAnchorL.insertAdjacentElement('afterbegin',controlSpanL1);
+    controlAnchorL.insertAdjacentElement('afterbegin',controlSpanL2);
+
+    // carouseldiv.insertAdjacentElement('afterbegin',controlDiv);
     main.insertAdjacentElement(`afterbegin`,cohertContainer);
     
     

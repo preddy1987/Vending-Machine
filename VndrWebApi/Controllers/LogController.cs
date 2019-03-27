@@ -48,10 +48,18 @@ namespace VndrWebApi.Controllers
         // POST api/log
         [HttpPost]
         [Route("api/log/add")]
-        public void Post([FromBody] VendingOperation vendOp)
+        public void Post([FromBody] LogAddViewModel logOp)
         {
-            //VendingOperation item = new VendingOperation();
-            //item.Name = value.Name;
+            VendingOperation vendOp = new VendingOperation();
+            vendOp.OperationType = (VendingOperation.eOperationType)logOp.OperationType;
+            vendOp.Price = logOp.Price;
+            vendOp.TimeStamp = logOp.TimeStamp;
+            vendOp.UserId = logOp.UserId;
+            if (logOp.OperationType == LogAddViewModel.eOperationType.PurchaseItem)
+            {
+                vendOp.ProductId = logOp.ProductId;
+            }
+
             _loggingDAO.LogOperation(vendOp);
         }
     }

@@ -1,20 +1,20 @@
 <template>
     <div id="report-box">
         <h4 id="report-title">Report</h4>
-        <query-selection :queryInputs="queryInputs" />
-        <data-table />
+        <query-section :queryInputs="queryInputs"></query-section>
+        <!-- <data-table /> -->
     </div>
 </template>
 
 <script>
-import QuerySelection from "@/QuerySelection";
-import DataTable from "@/DataTable";
+import QuerySection from "@/components/QuerySection";
+//import DataTable from "@/DataTable";
 
 export default {
     name: "report-box",
     components: {
-        QuerySelection,
-        DataTable
+        QuerySection
+        //DataTable
     },
     data() {
         return {
@@ -22,31 +22,27 @@ export default {
                 {
                     type: "select",
                     name: "years",
-                    options: getYears()
+                    options: []
                 },
                 {
                     type: "select",
                     name: "users",
-                    options: getUsers()
+                    options: []
                 }
             ]
         }
     },
     methods: {
         getYears() {
-            const years = [];
             const currentYear = (new Date()).getFullYear();
             for(let i = currentYear; i >= 2015; i--){
                 let year = {};
                 year.value = i;
                 year.display = i;
-                years.push(year);
+                this.queryInputs[0].options.push(year);
             }
-            return years;
         },
         getUsers() {
-            const users = [];
-
             fetch(`http://localhost:57005/api/user`)
             .then((response) => {
                 return response.json();
@@ -56,12 +52,15 @@ export default {
                     let user = {};
                     user.value = item.id;
                     user.display = (item.firstName + " " + item.lastName);
-                    users.push(user);
+                    this.queryInputs[1].options.push(user);
                 });
-                return users;
             })
             .catch((err) => {console.error(err)});
         }
+    },
+    created: function () {
+        this.getYears();
+        this.getUsers();
     }
 }
 </script>

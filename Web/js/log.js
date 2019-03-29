@@ -119,11 +119,14 @@ function logRowTemplateString(dateString,opString,amtString){
   return rowTemplateHTML;
 }
 
-function buildHTML () {
+function buildLogHTML () {
   const mainNode = document.querySelector('main');
   let templateHTML= '<div class="container" id="logBox">\n';
   templateHTML +=       '<div class="logHeading">\n<div class="logTitle">History</div>\n';
-  templateHTML +=       '<div class="logDateInput"><input id="fromDateInput" type="date" autofocus=true autocomplete="off"></input>';
+  templateHTML +=       '<div class="logDateInput">';
+  templateHTML +=       '<label for="fromDateInput">From Date:</label>';
+  templateHTML +=       '<input id="fromDateInput" type="date" autofocus=true autocomplete="off"></input>';
+  templateHTML +=       '<label for="toDateInput">To Date:</label>';
   templateHTML +=       '<input id="toDateInput" type="date" autocomplete="off"></input>';
   templateHTML +=       '<input id="displayDataButton" type="button" value="Display Log"></input></div>';
   templateHTML +=       '<div class="logDropDowns">\n<select id="operations">\n<option value="all">All Operation Types</option>\n</select>\n</div>\n';
@@ -150,7 +153,7 @@ function buildHTML () {
 // fromlogdatetime=2019-03-20T15:00:00.000&tologdatetime=2019-03-21T15:00:00.000
 
 function doFromDate(event) {
-  alert(`From date input change. Value=${event.currentTarget.value}`);
+  //alert(`From date input change. Value=${event.currentTarget.value}`);
   if (document.getElementById("fromDateInput").value != "") {
     document.getElementById("toDateInput").value = document.getElementById("fromDateInput").value;
   }
@@ -187,7 +190,7 @@ function getDateValues () {
 }
 
 function setupLogPage() {
-    buildHTML();
+    buildLogHTML();
     fromDateEvent();  // set change event on from date input box
     //toDateEvent();    // set change event on to date input box
     displayDateEvent(); // set clock event on display data button

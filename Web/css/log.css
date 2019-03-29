@@ -27,8 +27,15 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    justify-content: space-between;
+}
+
+.logDateInput input {
+    display: flex;
+    flex-direction: row;
     align-content: space-between;
 }
+
 #logBox{
     margin-top: 15px;
     margin-bottom:50px;

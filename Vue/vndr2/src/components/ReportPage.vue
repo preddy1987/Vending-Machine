@@ -1,23 +1,25 @@
 <template>
     <div id="report-box">
         <h4 id="report-title">Report</h4>
-        <query-section :queryInputs="queryInputs"></query-section>
-        <!-- <data-table /> -->
+        <query-section :queryInputs="queryInputs" @query-values="applyQuery"></query-section>
+        <data-table :totalSales="totalSales" :dataList="dataList" />
     </div>
 </template>
 
 <script>
 import QuerySection from "@/components/QuerySection";
-//import DataTable from "@/DataTable";
+import DataTable from "@/components/DataTable";
 
 export default {
     name: "report-box",
     components: {
-        QuerySection
-        //DataTable
+        QuerySection,
+        DataTable
     },
     data() {
         return {
+            totalSales: NaN,
+            dataList: undefined,
             queryInputs: [
                 {
                     type: "select",
@@ -27,7 +29,12 @@ export default {
                 {
                     type: "select",
                     name: "users",
-                    options: []
+                    options: [
+                        {
+                            value: "all",
+                            display: "All"
+                        }
+                    ]
                 }
             ]
         }
@@ -56,6 +63,58 @@ export default {
                 });
             })
             .catch((err) => {console.error(err)});
+        },
+        generateReportList(apiurl){
+            let reportRunningTotal = 0;
+            const reportProductList = [];
+            this.dataList = [];
+
+            fetch(`http://localhost:57005/api/product`)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((items) => {
+                    items.forEach((item) => {
+                        let product = {};
+                        product.id = item.id;
+                        product.name = item.name;
+                        product.count = 0;
+                        reportProductList.push(product);
+                    });
+
+                    fetch(apiurl)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((items) => {
+                            items.forEach((item) => {
+                                reportProductList.forEach((product) => {
+                                    if(item.productId == product.id){
+                                        product.count += 1;
+                                        reportRunningTotal += item.salePrice;                    
+                                    }
+                                });
+                            });
+
+                            this.totalSales = reportRunningTotal;
+
+                            reportProductList.forEach((product) => {
+                                if(product.count != 0){
+                                    this.dataList.push({name: product.name, count: product.count});
+                                }
+                            });
+                        })
+                        .catch((err) => {console.error(err)});
+                })
+                .catch((err) => {console.error(err)});
+        },
+        applyQuery(queryValues) {
+            if(queryValues[1] == 'all') {
+                generateReportList(`http://localhost:57005/api/transactionitem/foryear/${queryValues[0]}`);
+            }
+            else {
+                generateReportList(`http://localhost:57005/api/transactionitem/foryearanduser/${queryValues[0]}/${queryValues[1]}`);
+            }
         }
     },
     created: function () {

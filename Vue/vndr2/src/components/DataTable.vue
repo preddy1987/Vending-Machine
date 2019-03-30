@@ -1,10 +1,18 @@
 <template>
     <div id="data-list-container">
-        <ul id="data-list">
-            <li></li>
-            <li v-for="dataItem in dataList" :key="dataList.indexOf(dataItem)"></li>
+        <ul id="data-list" v-if="(this.dataList != undefined)">
+            <li :style="gridAreas" >
+                <div v-for="key in Object.keys(dataList[0])"
+                    :key="'header' + key"
+                    :style="{gridArea: key}">{{ key }}</div>
+            </li>
+            <li :style="gridAreas" v-for="dataItem in dataList"
+                :key="dataList.indexOf(dataItem)">
+                <div v-for="(value, key) in dataItem" :key="key + dataList.indexOf(dataItem)"
+                    :style="{gridArea: key}">{{ value }}</div>
+            </li>
         </ul>
-        <div id="total-sales"><span>Total Sales:</span> {{ totalSales }}</div>
+        <div id="total-sales" v-if="(totalSales != undefined)"><span>Total Sales:</span> ${{ totalSales.toFixed(2) }}</div>
     </div>
 </template>
 
@@ -15,37 +23,57 @@ export default {
         dataList: Array
     },
     computed: {
-        gridTemplateColumns() {
-            let string = "5%";
+        gridAreas: function(){
+            let columnString = '';
+            if(this.dataList != undefined){
+                columnString = '1fr';
+
+                Object.keys(this.dataList[0]).forEach( () => {
+                    columnString += ' 2fr 1fr';
+                });
+            }
+
+            let areaString = '""';
+            if(this.dataList.length != undefined){
+                areaString = '".';
+
+                Object.keys(this.dataList[0]).forEach( (key) => {
+                    areaString += ` ${key} .`;
+                });
+            }
             
+            return {
+                'grid-template-columns': columnString,
+                'grid-template-areas': areaString
+            };
         }
     }
 }
 </script>
 
 <style>
-#report-list-container {
+#data-list-container {
     border: solid black;
     padding: 5%;
 }
 
-#report-list > :first-child {
+#data-list > :first-child {
     border-bottom: solid black;
+    text-transform: capitalize;
+    font-weight: bold;
 }
 
-#report-list li {
+#data-list li {
     display: grid;
-    grid-template-columns: 20% 1fr 10% 1fr 20%;
-    grid-template-areas: ". name . amount .";
     padding: 5px 0;
     align-items: center;
 }
 
-#report-list li :last-child {
+#data-list li :last-child {
     text-align: right;
 }
 
-#report-list :nth-child(even) {
+#data-list > :nth-child(even) {
     background: lightsteelblue;
 }
 

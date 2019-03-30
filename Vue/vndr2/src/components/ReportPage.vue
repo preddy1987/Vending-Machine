@@ -18,7 +18,7 @@ export default {
     },
     data() {
         return {
-            totalSales: NaN,
+            totalSales: undefined,
             dataList: undefined,
             queryInputs: [
                 {
@@ -110,10 +110,10 @@ export default {
         },
         applyQuery(queryValues) {
             if(queryValues[1] == 'all') {
-                generateReportList(`http://localhost:57005/api/transactionitem/foryear/${queryValues[0]}`);
+                this.generateReportList(`http://localhost:57005/api/transactionitem/foryear/${queryValues[0]}`);
             }
             else {
-                generateReportList(`http://localhost:57005/api/transactionitem/foryearanduser/${queryValues[0]}/${queryValues[1]}`);
+                this.generateReportList(`http://localhost:57005/api/transactionitem/foryearanduser/${queryValues[0]}/${queryValues[1]}`);
             }
         }
     },

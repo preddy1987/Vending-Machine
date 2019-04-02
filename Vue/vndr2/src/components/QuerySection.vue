@@ -2,17 +2,21 @@
     <form id="query-form" @submit.prevent="sendQueryParameters">
         <div class="form-group" v-for="input in queryInputs" :key="input.name">
             <label :for="input.name">{{ input.name }}</label>
-            <select v-if="input.type === 'select'" :id="input.name" class="form-control" :name="input.name">
-                <option v-for="option in input.options" :key="option.value" :value="option.value">{{ option.display }}</option>
+            <select v-if="input.type === 'select'" :id="input.name"
+                    class="form-control" :name="input.name">
+                <option v-for="option in input.options" :key="option.value"
+                        :value="option.value">{{ option.display }}</option>
             </select>
-            <input v-if="input.type === 'input'" :id="input.name" class="form-control" :name="input.name" />
+            <input v-if="((input.type === 'text') || (input.type === 'date'))" :id="input.name"
+                    class="form-control" :name="input.name" :type="input.type" />
         </div>
-        <button class="btn btn-info form-group">Submit</button>
+        <button id="query-refresh" class="btn btn-info form-group">Refresh</button>
     </form>
 </template>
 
 <script>
 export default {
+    name: "query-form",
     props: {
         queryInputs: Array
     },
@@ -55,7 +59,12 @@ export default {
     margin-top: 15px;
 }
 
-label, select, input {
+label, select, input, button {
     text-transform: capitalize;
+    min-width: 150px;
+}
+
+#query-refresh {
+    background-color: #4682b4b0;
 }
 </style>

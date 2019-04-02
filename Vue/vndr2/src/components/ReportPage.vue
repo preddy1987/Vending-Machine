@@ -1,5 +1,5 @@
 <template>
-    <div id="report-box">
+    <div id="report-page">
         <h4 id="report-title">Report</h4>
         <query-section :queryInputs="queryInputs" @query-values="applyQuery"></query-section>
         <data-table :totalSales="totalSales" :dataList="dataList" />
@@ -11,7 +11,7 @@ import QuerySection from "@/components/QuerySection";
 import DataTable from "@/components/DataTable";
 
 export default {
-    name: "report-box",
+    name: "report-page",
     components: {
         QuerySection,
         DataTable
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style>
-#report-box {
+#report-page {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: 10%;

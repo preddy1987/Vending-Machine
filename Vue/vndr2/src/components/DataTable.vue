@@ -1,6 +1,6 @@
 <template>
     <div id="data-list-container">
-        <ul id="data-list" v-if="(this.dataList != undefined)">
+        <ul id="data-list" v-if="(dataList != undefined)">
             <li :style="gridAreas" >
                 <div v-for="key in Object.keys(dataList[0])"
                     :key="'header' + key"
@@ -18,29 +18,28 @@
 
 <script>
 export default {
+    name: "data-list-container",
     props: {
         totalSales: Number,
         dataList: Array
     },
     computed: {
         gridAreas: function(){
-            let columnString = '';
-            if(this.dataList != undefined){
-                columnString = '1fr';
-
+            let columnString = '1fr';
+            if((this.dataList != undefined) && (this.dataList.length > 0)){
                 Object.keys(this.dataList[0]).forEach( () => {
                     columnString += ' 2fr 1fr';
                 });
             }
 
-            let areaString = '""';
-            if(this.dataList.length != undefined){
-                areaString = '".';
-
+            let areaString = '".';
+            if((this.dataList != undefined) && (this.dataList.length > 0)){
                 Object.keys(this.dataList[0]).forEach( (key) => {
                     areaString += ` ${key} .`;
                 });
             }
+            
+            areaString += '"';
             
             return {
                 'grid-template-columns': columnString,

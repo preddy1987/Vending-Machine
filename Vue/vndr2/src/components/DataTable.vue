@@ -1,7 +1,7 @@
 <template>
     <div id="data-list-container">
         <ul id="data-list" v-if="(dataList != undefined)">
-            <li :style="gridAreas" >
+            <li :style="gridAreas" v-if="(dataList[0] != undefined)" >
                 <div v-for="key in Object.keys(dataList[0])"
                     :key="'header' + key"
                     :style="{gridArea: key}">{{ key }}</div>

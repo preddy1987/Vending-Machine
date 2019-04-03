@@ -1,7 +1,7 @@
 <template>
     <div id="report-page">
         <h4 id="report-title">Report</h4>
-        <query-section :queryInputs="queryInputs" @query-values="applyQuery"></query-section>
+        <query-section :queryInputs="queryInputs" @report-query-values="applyQuery" :queryAppend="queryAppend"></query-section>
         <data-table :totalSales="totalSales" :dataList="dataList" />
     </div>
 </template>
@@ -20,6 +20,7 @@ export default {
         return {
             totalSales: undefined,
             dataList: undefined,
+            queryAppend: "report",
             queryInputs: [
                 {
                     type: "select",
@@ -65,7 +66,7 @@ export default {
             .catch((err) => {console.error(err)});
         },
         generateReportList(apiurl){
-            let reportRunningTotal = 0;
+            this.totalSales = 0;
             const reportProductList = [];
             this.dataList = [];
 
@@ -91,12 +92,10 @@ export default {
                                 reportProductList.forEach((product) => {
                                     if(item.productId == product.id){
                                         product.count += 1;
-                                        reportRunningTotal += item.salePrice;                    
+                                        this.totalSales += item.salePrice;                    
                                     }
                                 });
                             });
-
-                            this.totalSales = reportRunningTotal;
 
                             reportProductList.forEach((product) => {
                                 if(product.count != 0){

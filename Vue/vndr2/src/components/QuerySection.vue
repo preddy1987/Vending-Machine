@@ -1,5 +1,5 @@
 <template>
-    <form id="query-form" @submit.prevent="sendQueryParameters">
+    <form :id="queryAppend" @submit.prevent="sendQueryParameters">
         <div class="form-group" v-for="input in queryInputs" :key="input.name">
             <label :for="input.name">{{ input.name }}</label>
             <select v-if="input.type === 'select'" :id="input.name"
@@ -18,11 +18,12 @@
 export default {
     name: "query-form",
     props: {
-        queryInputs: Array
+        queryInputs: Array,
+        queryAppend: String,
     },
     methods: {
         sendQueryParameters () {
-            const formTag = document.getElementById("query-form");
+            const formTag = document.getElementById(this.queryAppend);
             const selectTags = formTag.querySelectorAll("select");
             const inputTags = formTag.querySelectorAll("input");
 
@@ -40,7 +41,14 @@ export default {
                 });
             }
 
-            this.$emit("query-values", queryValues)
+            this.$emit(this.eventName, queryValues)
+        }
+    },
+    computed: {
+        eventName: function(){
+            let eventName = this.queryAppend + "-query-values";
+            
+            return eventName;
         }
     },
     mounted: function () {
@@ -49,8 +57,8 @@ export default {
 }
 </script>
 
-<style>
-#query-form {
+<style scoped>
+form {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

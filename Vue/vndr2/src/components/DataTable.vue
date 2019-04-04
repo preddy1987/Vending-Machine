@@ -1,6 +1,6 @@
 <template>
-    <div id="data-list-container">
-        <ul id="data-list" v-if="(dataList != undefined)">
+    <div class="data-list-container">
+        <ul v-if="(dataList != undefined)">
             <li :style="gridAreas" v-if="(dataList[0] != undefined)" >
                 <div v-for="key in Object.keys(dataList[0])"
                     :key="'header' + key"
@@ -12,7 +12,7 @@
                     :style="{gridArea: key}">{{ value }}</div>
             </li>
         </ul>
-        <div id="total-sales" v-if="(totalSales != undefined)"><span>Total Sales:</span> ${{ totalSales.toFixed(2) }}</div>
+        <div class="total-sales" v-if="(totalSales != undefined)"><span>Total Sales:</span> ${{ totalSales.toFixed(2) }}</div>
     </div>
 </template>
 
@@ -50,38 +50,38 @@ export default {
 }
 </script>
 
-<style>
-#data-list-container {
+<style scoped>
+.data-list-container {
     border: solid black;
     padding: 5%;
 }
 
-#data-list > :first-child {
+ul > :first-child {
     border-bottom: solid black;
     text-transform: capitalize;
     font-weight: bold;
 }
 
-#data-list li {
+ul li {
     display: grid;
     padding: 5px 0;
     align-items: center;
 }
 
-#data-list li :last-child {
+ul li :last-child {
     text-align: right;
 }
 
-#data-list > :nth-child(even) {
+ul > :nth-child(even) {
     background: lightsteelblue;
 }
 
-#total-sales {
+.total-sales {
     padding: 0 100px 25px 40px;
     text-align: right;
 }
 
-#total-sales span {
+.total-sales span {
     font-weight: bold;
 }
 </style>

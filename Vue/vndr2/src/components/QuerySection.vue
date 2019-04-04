@@ -10,7 +10,7 @@
             <input v-if="((input.type === 'text') || (input.type === 'date'))" :id="input.name"
                     class="form-control" :name="input.name" :type="input.type" />
         </div>
-        <button id="query-refresh" class="btn btn-info form-group">Refresh</button>
+        <button class="btn btn-info form-group">Refresh</button>
     </form>
 </template>
 
@@ -72,7 +72,7 @@ label, select, input, button {
     min-width: 150px;
 }
 
-#query-refresh {
+button {
     background-color: #4682b4b0;
 }
 </style>

@@ -123,17 +123,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #report-page {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding: 15px;
     margin-right: 10%;
     margin-left: 10%;
     margin-top: 15px;
     margin-bottom: 50px;
     border: solid black;
     background: white;
-    width: 100%;
+    width: auto;
 }
 
 #report-title {

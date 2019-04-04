@@ -10,7 +10,7 @@
             <input v-if="((input.type === 'text') || (input.type === 'date'))" :id="input.name"
                     class="form-control" :name="input.name" :type="input.type" />
         </div>
-        <button class="btn btn-info form-group">Refresh</button>
+        <button class="btn form-group">Refresh</button>
     </form>
 </template>
 
@@ -62,9 +62,10 @@ form {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
-    margin-bottom: 25px;
-    margin-top: 15px;
+    justify-content: space-evenly;
+    margin: 5%;
+    border: solid black;
+    padding: 5%;
 }
 
 label, select, input, button {
@@ -74,5 +75,7 @@ label, select, input, button {
 
 button {
     background-color: #4682b4b0;
+    margin: 1rem;
+    color: #fff;
 }
 </style>

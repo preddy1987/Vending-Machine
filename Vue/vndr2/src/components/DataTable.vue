@@ -25,11 +25,18 @@ export default {
     },
     computed: {
         gridAreas: function(){
-            let columnString = '1fr';
+            let columnString = '2fr';
             if((this.dataList != undefined) && (this.dataList.length > 0)){
-                Object.keys(this.dataList[0]).forEach( () => {
-                    columnString += ' 2fr 1fr';
-                });
+                let keyArray = Object.keys(this.dataList[0]);
+
+                for(let i = 0; i < keyArray.length; i++){
+                    if(i != (keyArray.length - 1)){
+                        columnString += ' 2fr 1fr';
+                    }
+                    else {
+                        columnString += ' 2fr 2fr';
+                    }
+                }
             }
 
             let areaString = '".';
@@ -53,7 +60,12 @@ export default {
 <style scoped>
 .data-list-container {
     border: solid black;
+    margin: 5%;
     padding: 5%;
+}
+
+ul {
+    padding: 0;
 }
 
 ul > :first-child {
@@ -77,7 +89,7 @@ ul > :nth-child(even) {
 }
 
 .total-sales {
-    padding: 0 100px 25px 40px;
+    padding: 0 15% 0 0;
     text-align: right;
 }
 

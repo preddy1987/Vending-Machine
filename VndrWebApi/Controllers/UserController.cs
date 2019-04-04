@@ -74,6 +74,7 @@ namespace VndrWebApi.Controllers
         public ActionResult<UserItem> Login([FromBody] UserItemViewModel value)
         {
             UserItem userItem = null;
+            PasswordManager passHelper = null;
             try
             {
                 userItem = _db.GetUserItem(value.Username);
@@ -82,7 +83,10 @@ namespace VndrWebApi.Controllers
             catch (Exception)
             {
             }
-            PasswordManager passHelper = new PasswordManager(value.Password, userItem.Salt);
+            if (userItem != null)
+            {
+                passHelper = new PasswordManager(value.Password, userItem.Salt);
+            }
             if (userItem != null && passHelper.Verify(userItem.Hash))
             {
                 return userItem;

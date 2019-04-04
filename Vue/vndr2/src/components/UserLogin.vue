@@ -3,17 +3,11 @@
     <form class="user-form">
         <div class="field">
         <label for="username">Username:</label>
-        <input type="text" id="username" class="form-control" v-model.lazy="$v.formResponses.username.$model" >
-        <p class="error" v-if="!$v.formResponses.username.required">this field is required</p>
-        <p class="error" v-if="!$v.formResponses.username.minLength">Field must have at least 
-           {{ $v.formResponses.username.$params.minLength.min }} characters.</p>
+        <input type="text" id="username" class="form-control" v-model.lazy="username" >
         </div>
         <div class="field">
-            <label for="password">Password:</label>
-        <input type="password" id="password" class="form-control" v-model.lazy="$v.formResponses.password.$model" >
-        <p class="error" v-if="!$v.formResponses.password.required">this field is required</p>
-        <p class="error" v-if="!$v.formResponses.password.minLength">Field must have at least 
-           {{ $v.formResponses.password.$params.minLength.min }} characters.</p>
+        <label for="password">Password:</label>
+        <input type="password" id="password" class="form-control" v-model.lazy="password" >
         </div>
        <button @click.prevent="loginUser" id="login-user" class="btn btn-primarybtn btn-lg btn-primary btn-block" type="submit">Login</button>
     </form>
@@ -21,41 +15,25 @@
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators"; 
-
 export default {
  name: "user",
   data() {
    return {
-     formResponses: {
        username: '',
        password: ''
-     }
-   }
- },
- validations: {
-   formResponses: {
-     username: {
-       required,
-        minLength: minLength(2)
-     },
-      password: {
-       required,
-        minLength: minLength(3)
-     }
    }
  },
     methods: {
     loginUser() {
-         const username = document.getElementById('username').value;
-         const password = document.getElementById('password').value;
+        //  const username = document.getElementById('username').value;
+        //  const password = document.getElementById('password').value;
         fetch('http://localhost:57005/api/user/login', {
         method: 'POST',
         headers: {
         'Accept': 'application/json',
         'Content-type': 'application/json'
         },
-        body: JSON.stringify({username:username, password: password,})
+        body: JSON.stringify({username:this.username, password:this.password,})
         }).then((response) => {
         if(response.status == 404){
             sessionStorage.removeItem('key')
@@ -101,8 +79,5 @@ export default {
     width: 100vmax;
     height: 100vh;
     background-repeat: no-repeat;
-}
-.error {
-  color: red;
 }
 </style>

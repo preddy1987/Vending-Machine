@@ -137,6 +137,6 @@ export default {
 
 #report-title {
     text-align: center;
-    margin: 10px;
+    margin: 5%;
 }
 </style>

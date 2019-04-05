@@ -13,64 +13,16 @@ using VndrWebApi.Models;
 
 namespace VndrWebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class UserController : AuthController
     {
-        public UserController(IVendingService db) : base(db)
+        public UserController(IVendingService db, IHttpContextAccessor httpContext) : base(db, httpContext)
         {
            
         }
 
-        // GET api/user
-        [HttpGet]
-        public ActionResult<IEnumerable<UserItem>> Get()
-        {
-            return _db.GetUserItems();
-        }
-
-        // GET api/user/5
-        [HttpGet("{id}")]
-        public ActionResult<UserItem> Get(int id)
-        {
-            return _db.GetUserItem(id);
-        }
-
-        // POST api/user
         [HttpPost]
-        public ActionResult<UserItem> Post([FromBody] UserItemViewModel value)
-        {
-            UserItem userItem = null;
-            try
-            {
-                userItem = _db.GetUserItem(value.Username);
-            }
-            catch (Exception)
-            {
-            }
-
-            if (userItem != null)
-            {
-                return NotFound();
-            }
-            PasswordManager passHelper = new PasswordManager(value.Password);
-            UserItem user = new UserItem()
-            {
-              FirstName = value.FirstName,
-              LastName = value.LastName,
-              Username = value.Username,
-              Email = value.Email,
-              Hash = passHelper.Hash,
-              Salt = passHelper.Salt,
-              RoleId = value.RoleId
-          };
-            _db.AddUserItem(user);
-            return user;
-        }
-
-        [HttpGet]
-        //[Route("api/user/login")]
-        public ActionResult<StatusViewModel> Login(LoginViewModel info)
+        [Route("api/login")]
+        public ActionResult<StatusViewModel> Login([FromBody] LoginViewModel info)
         {
             StatusViewModel result = new StatusViewModel();
 
@@ -84,31 +36,36 @@ namespace VndrWebApi.Controllers
                 result.Message = ex.Message;
             }
 
-            return result;
+            return Json(result);
         }
 
-        // PUT api/user/5
-        [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] UserItemViewModel value)
+        [HttpPost]
+        [Route("api/register")]
+        public ActionResult<StatusViewModel> Register([FromBody] RegisterViewModel info)
         {
-            PasswordManager passHelper = new PasswordManager(value.Password);
-            UserItem user = new UserItem();
-            user.Id = id;
-            user.FirstName = value.FirstName;
-            user.LastName = value.LastName;
-            user.Username = value.Username;
-            user.Email = value.Email;
-            user.Hash = passHelper.Hash;
-            user.Salt = passHelper.Salt;
-            //user.RoleId = value.RoleId;
-            return _db.UpdateUserItem(user);
+            StatusViewModel result = new StatusViewModel();
+
+            try
+            {
+                var user = new User();
+                user.ConfirmPassword = info.ConfirmPassword;
+                user.Email = info.Email;
+                user.FirstName = info.FirstName;
+                user.LastName = info.LastName;
+                user.Password = info.Password;
+                user.Username = info.Username;
+
+                RegisterUser(user);
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccessful = false;
+                result.Message = ex.Message;
+            }
+
+            return Json(result);
         }
 
-        // DELETE api/user/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _db.DeleteUserItem(id);
-        }
+
     }
 }

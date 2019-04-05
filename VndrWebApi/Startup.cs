@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using VendingService.Database;
 using VendingService.Interfaces;
 
@@ -36,14 +31,15 @@ namespace VndrWebApi
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
-                    // Sets session expiration to 20 minuates
-                    options.IdleTimeout = TimeSpan.FromMinutes(20);
+                // Sets session expiration to 20 minuates
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.HttpOnly = true;
             });
 
             services.AddCors();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddScoped<IVendingService>(m => new VendingDBService(connectionString));
@@ -60,6 +56,8 @@ namespace VndrWebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
 

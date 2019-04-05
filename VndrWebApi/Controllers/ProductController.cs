@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VendingService.Interfaces;
@@ -12,20 +10,18 @@ namespace VndrWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : AuthController
     {
-        private IVendingService _db = null;
-
-        public ProductController(IVendingService db)
+        public ProductController(IVendingService db, IHttpContextAccessor httpContext) : base(db, httpContext)
         {
-            _db = db;
         }
 
         // GET api/product
         [HttpGet]
         public ActionResult<IEnumerable<ProductItem>> Get()
         {
-            return _db.GetProductItems();
+            var result = Json(_db.GetProductItems());
+            return GetAuthenticatedJson(result, Role.IsCustomer | Role.IsExecutive | Role.IsServiceman);
         }
 
         // GET api/product/5

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SessionControllerData;
 using VendingService;
@@ -15,10 +16,23 @@ namespace VndrWebApi.Controllers
         /// </summary>
         private RoleManager _roleMgr = null;
         protected IVendingService _db = null;
+        private const string RoleMgrKey = "RoleManager";
 
-        public AuthController(IVendingService db)
+        public AuthController(IVendingService db, IHttpContextAccessor httpContext) : base(httpContext)
         {
             _db = db;
+
+            // Get the role manager from the session
+            _roleMgr = GetSessionData<RoleManager>(RoleMgrKey);
+
+            // If it does not exist on the session then add it
+            if(_roleMgr == null)
+            {
+                // Since the role manager is being created then a user still needs to be authenticated
+                _roleMgr = new RoleManager(null);
+
+                SetSessionData(RoleMgrKey, _roleMgr);
+            }
         }
 
         /// <summary>
@@ -120,6 +134,9 @@ namespace VndrWebApi.Controllers
             }
 
             _roleMgr = new RoleManager(user);
+
+            // Put the authenticated user in the session
+            SetSessionData(RoleMgrKey, _roleMgr);
         }
 
         /// <summary>
@@ -128,6 +145,8 @@ namespace VndrWebApi.Controllers
         public void LogoutUser()
         {
             _roleMgr = new RoleManager(null);
+            
+            SetSessionData(RoleMgrKey, _roleMgr);
         }
 
         public ActionResult GetAuthenticatedView(string viewName, object model = null)

@@ -29,14 +29,21 @@ namespace SessionControllerData
     /// </summary>
     public class SessionController : Controller
     {
+        private IHttpContextAccessor _httpContext = null;
+
+        public SessionController(IHttpContextAccessor httpContext)
+        {
+            _httpContext = httpContext;
+        }
+
         public void SetSessionData<T>(string key, T data)
         {
-            HttpContext.Session.Set<T>(key, data);
+            _httpContext.HttpContext.Session.Set<T>(key, data);
         }
 
         public T GetSessionData<T>(string key)
         {
-            return HttpContext.Session.Get<T>(key);
+            return _httpContext.HttpContext.Session.Get<T>(key);
         }
 
         public void SetTempData<T>(string key, T data)
@@ -76,3 +83,7 @@ namespace SessionControllerData
 //    app.UseCookiePolicy();
 //    app.UseSession();
 //}
+
+// ********* Important ***********
+// public AuthController(IVendingService db, IHttpContextAccessor httpContext) : base(httpContext)
+// You will need to pass the IHttpContextAccessor httpContext into the SessionController constructor from your child class

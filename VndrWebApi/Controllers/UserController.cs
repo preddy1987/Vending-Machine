@@ -15,12 +15,11 @@ namespace VndrWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : AuthController
     {
-        private IVendingService _db = null;
-        public UserController(IVendingService db)
+        public UserController(IVendingService db) : base(db)
         {
-            _db = db;
+           
         }
 
         // GET api/user
@@ -69,28 +68,23 @@ namespace VndrWebApi.Controllers
             return user;
         }
 
-        [HttpPost]
-        [Route("login")]
-        public ActionResult<UserItem> Login([FromBody] UserItemViewModel value)
+        [HttpGet]
+        //[Route("api/user/login")]
+        public ActionResult<StatusViewModel> Login(LoginViewModel info)
         {
-            UserItem userItem = null;
+            StatusViewModel result = new StatusViewModel();
+
             try
             {
-                userItem = _db.GetUserItem(value.Username);
-              
+                LoginUser(info.UserName, info.Password);
             }
-            catch (Exception)
+            catch(Exception ex)
             {
+                result.IsSuccessful = false;
+                result.Message = ex.Message;
             }
-            PasswordManager passHelper = new PasswordManager(value.Password, userItem.Salt);
-            if (userItem != null && passHelper.Verify(userItem.Hash))
-            {
-                return userItem;
-            }
-            else
-            {
-                return NotFound();
-            }
+
+            return result;
         }
 
         // PUT api/user/5

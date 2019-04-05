@@ -21,7 +21,7 @@ namespace VndrWebApi.Controllers
         public ActionResult<IEnumerable<ProductItem>> Get()
         {
             var result = Json(_db.GetProductItems());
-            return GetAuthenticatedJson(result, Role.IsCustomer | Role.IsExecutive | Role.IsServiceman);
+            return GetAuthenticatedJson(result, Role.IsCustomer || Role.IsExecutive || Role.IsServiceman);
         }
 
         // GET api/product/5

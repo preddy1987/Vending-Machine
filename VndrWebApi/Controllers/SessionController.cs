@@ -76,6 +76,7 @@ namespace SessionControllerData
 //        options.IdleTimeout = TimeSpan.FromMinutes(20);
 //        options.Cookie.HttpOnly = true;
 //    });
+//    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //}
 
 //public void Configure(IApplicationBuilder app, IHostingEnvironment env)

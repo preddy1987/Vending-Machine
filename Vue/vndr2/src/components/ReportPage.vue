@@ -25,7 +25,12 @@ export default {
                 {
                     type: "select",
                     name: "years",
-                    options: []
+                    options: [
+                        {
+                            value: "all",
+                            display: "All"
+                        }
+                    ]
                 },
                 {
                     type: "select",
@@ -108,7 +113,10 @@ export default {
                 .catch((err) => {console.error(err)});
         },
         applyQuery(queryValues) {
-            if(queryValues[1] == 'all') {
+            if(queryValues[0] == 'all'){
+                this.generateReportList(`http://localhost:57005/api/transactionitem/all`)
+            }
+            else if(queryValues[1] == 'all') {
                 this.generateReportList(`http://localhost:57005/api/transactionitem/foryear/${queryValues[0]}`);
             }
             else {

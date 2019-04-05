@@ -17,7 +17,15 @@ namespace VndrWebApi.Controllers
     {
         public UserController(IVendingService db, IHttpContextAccessor httpContext) : base(db, httpContext)
         {
-           
+
+        }
+        
+        [HttpGet]
+        [Route("api/user")]
+        public ActionResult<IEnumerable<UserItem>> Get()
+        {
+            var result = Json(_db.GetUserItems());
+            return GetAuthenticatedJson(result, (Role.IsExecutive || Role.IsAdministrator));
         }
 
         [HttpPost]

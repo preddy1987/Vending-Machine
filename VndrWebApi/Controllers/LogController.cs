@@ -12,7 +12,7 @@ namespace VndrWebApi.Controllers
 {
     //[Route("api/[controller]")]
     [ApiController]
-    public class LogController : ControllerBase
+    public class LogController : AuthController
     {
         #region Member Variables
         private ILogService _loggingDAO = null;
@@ -20,7 +20,7 @@ namespace VndrWebApi.Controllers
 
         #region Constructors
 
-        public LogController(ILogService loggingDAO)
+        public LogController(ILogService loggingDAO, IVendingService db, IHttpContextAccessor httpContext) : base(db, httpContext)
         {
             _loggingDAO = loggingDAO;
         }
@@ -31,7 +31,8 @@ namespace VndrWebApi.Controllers
         [Route("api/log/getall")]
         public ActionResult<IEnumerable<VendingOperation>> Get()
         {
-            return (List<VendingOperation>)_loggingDAO.GetLogData();
+            var result = Json((List<VendingOperation>)_loggingDAO.GetLogData());
+            return GetAuthenticatedJson(result, Role.IsExecutive);
         }
 
         // GET api/log/
@@ -41,7 +42,8 @@ namespace VndrWebApi.Controllers
         {
             //DateTime fromDate = logDates.FromLogDateTime;
             //DateTime toDate = logDates.ToLogDateTime;
-            return (List<VendingOperation>)_loggingDAO.GetLogData(fromLogDateTime,  toLogDateTime);
+            var result = Json((List<VendingOperation>)_loggingDAO.GetLogData(fromLogDateTime,  toLogDateTime));
+            return GetAuthenticatedJson(result, Role.IsExecutive);
             //return null;
         }
 

@@ -11,13 +11,11 @@ using VndrWebApi.Models;
 namespace VndrWebApi.Controllers
 {
     [ApiController]
-    public class TransactionItemController : ControllerBase
+    public class TransactionItemController : AuthController
     {
-        private IVendingService _db = null;
-
-        public TransactionItemController (IVendingService db)
+        public TransactionItemController(IVendingService db, IHttpContextAccessor httpContext) : base(db, httpContext)
         {
-            _db = db;
+            
         }
 
         //List<TransactionItem> GetTransactionItems();
@@ -25,7 +23,8 @@ namespace VndrWebApi.Controllers
         [Route("api/[controller]/all")]
         public ActionResult<IEnumerable<TransactionItem>> Get()
         {
-            return _db.GetTransactionItems();
+            var result = Json(_db.GetTransactionItems());
+            return GetAuthenticatedJson(result, Role.IsExecutive);
         }
 
         //TransactionItem GetTransactionItem(int transactionItemId);
@@ -33,7 +32,8 @@ namespace VndrWebApi.Controllers
         [Route("api/[controller]/single/{id}")]
         public ActionResult<TransactionItem> Get(int id)
         {
-            return _db.GetTransactionItem(id);
+            var result = Json(_db.GetTransactionItem(id));
+            return GetAuthenticatedJson(result, Role.IsExecutive);
         }
 
         //List<TransactionItem> GetTransactionItems(int vendingTransactionId);
@@ -41,7 +41,8 @@ namespace VndrWebApi.Controllers
         [Route("api/[controller]/fortransaction/{vendingTransactionId}")]
         public ActionResult<IEnumerable<TransactionItem>> TransactionIdGet(int vendingTransactionId)
         {
-            return _db.GetTransactionItems(vendingTransactionId);
+            var result = Json(_db.GetTransactionItems(vendingTransactionId));
+            return GetAuthenticatedJson(result, Role.IsExecutive);
         }
 
         //List<TransactionItem> GetTransactionItemsForYear(int year);
@@ -49,7 +50,8 @@ namespace VndrWebApi.Controllers
         [Route("api/[controller]/foryear/{year}")]
         public ActionResult<IEnumerable<TransactionItem>> YearGet(int year)
         {
-            return _db.GetTransactionItemsForYear(year);
+            var result = Json(_db.GetTransactionItemsForYear(year));
+            return GetAuthenticatedJson(result, Role.IsExecutive);
         }
 
         //List<TransactionItem> GetTransactionItemsForYear(int year, int userId);
@@ -57,7 +59,8 @@ namespace VndrWebApi.Controllers
         [Route("api/[controller]/foryearanduser/{year}/{userId}")]
         public ActionResult<IEnumerable<TransactionItem>> YearUserGet(int year, int userId)
         {
-            return _db.GetTransactionItemsForYear(year, userId);
+            var result = Json(_db.GetTransactionItemsForYear(year, userId));
+            return GetAuthenticatedJson(result, Role.IsExecutive);
         }
 
         //int AddTransactionItem(TransactionItem item);
